@@ -66,7 +66,7 @@
   "classes": [
     { "id": "conventional",  "label": "Conventional toolchangers" },
     { "id": "filament_path", "label": "Filament path changers" },
-    { "id": "nozzle",        "label": "Nozzle changers" }
+    { "id": "nozzle",        "label": "Hotend changers" }
   ],
 
   "types": [
@@ -125,8 +125,8 @@
       ]
     },
     {
-      "id": "ams_assisted_toolchanger",
-      "label": "AMS-assisted toolchangers",
+      "id": "ams_assisted_hotend_changer",
+      "label": "AMS-assisted hotend changers",
       "class": "nozzle",
       "swaps": ["heatsink","nozzle"],
       "requires": ["ams"]

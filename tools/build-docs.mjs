@@ -10,10 +10,6 @@
  *
  * The page pulls the snippets in with `--8<-- "..."`.
  *
- * Descriptions are read back out of docs/index.md, so the plate cell and the
- * section below it always say the same thing: the summary is the first
- * paragraph of a type's section.
- *
  *   node tools/build-docs.mjs
  */
 
@@ -81,39 +77,14 @@ for (const r of systems.rows) {
 }
 
 /* ---------------------------------------------------------------- *
- * Descriptions, read back out of the page
- *
- * A type's section runs from its <details> tag to the <div class="tc-clear">
- * that separates the prose from the table. The first paragraph of that is the
- * summary shown in the plate.
+ * Sanity check against the page
  * ---------------------------------------------------------------- */
 
 const pageText = read('docs', 'index.md');
-const PLACEHOLDER = '_Description to follow._';
-
-function summaryFor(id) {
-  const start = pageText.indexOf(`id="type-${id}"`);
-  if (start === -1) {
-    warn(`docs/index.md has no section for type "${id}"`);
-    return '';
+for (const t of data.types) {
+  if (!pageText.includes(`id="type-${t.id}"`)) {
+    warn(`docs/index.md has no section for type "${t.id}"`);
   }
-  // skip past the opening tags so the first paragraph really is prose
-  const opened = pageText.indexOf('</summary>', start);
-  const from = opened === -1 ? start : opened + '</summary>'.length;
-  const end = pageText.indexOf('tc-clear', from);
-  const block = pageText.slice(from, end === -1 ? undefined : end);
-
-  const paragraph = block
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .find((p) => p && !p.startsWith('<') && !p.startsWith('![') && p !== PLACEHOLDER);
-
-  if (!paragraph) return '';
-  return paragraph
-    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')   // links keep their text
-    .replace(/[*_`]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
 }
 
 /* ---------------------------------------------------------------- *
@@ -209,7 +180,6 @@ function plate() {
       `<span class="tc-cell-txt">` +
         `<span class="tc-cell-name">${esc(t.label)}</span>` +
         `<span class="tc-cell-systems">${list(t)}</span>` +
-        `<span class="tc-cell-desc">${esc(summaryFor(t.id)) || '<em>Description to follow.</em>'}</span>` +
       `</span>` +
     `</a>`;
 

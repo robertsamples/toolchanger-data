@@ -97,7 +97,22 @@ export function traceOutline(rects, pad = 26) {
     }
     if (pts.length > 2) loops.push(simplify(pts));
   }
-  return loops;
+
+  // Bridging can leave a pocket in the middle of the region. The tracer emits
+  // it as a loop wound the other way, which would draw a stray dashed rectangle
+  // inside the tool. Keep only the outer perimeters.
+  const outward = Math.sign(signedArea(loops.reduce((a, b) => (Math.abs(signedArea(b)) > Math.abs(signedArea(a)) ? b : a))));
+  return loops.filter((l) => Math.sign(signedArea(l)) === outward);
+}
+
+/** Shoelace. Sign tells an outer boundary from a hole. */
+function signedArea(loop) {
+  let a = 0;
+  for (let i = 0; i < loop.length; i++) {
+    const p = loop[i], q = loop[(i + 1) % loop.length];
+    a += p[0] * q[1] - q[0] * p[1];
+  }
+  return a / 2;
 }
 
 /** Drop the interior point of any three collinear points. */
@@ -162,10 +177,31 @@ export function toolRegionRects(data, opts = {}) {
     return hi - lo > EPS ? [lo, hi] : null;
   };
 
+  // A sleeve around the wire itself. Thin enough not to swallow a neighbouring
+  // block, wide enough that the dashed outline clears the stroke.
+  const sleeve = (route, hw) => {
+    for (let i = 0; i < route.length - 1; i++) {
+      const [p, q] = [route[i], route[i + 1]];
+      rects.push({
+        x0: Math.min(p[0], q[0]) - hw,
+        x1: Math.max(p[0], q[0]) + hw,
+        y0: Math.min(p[1], q[1]) - hw,
+        y1: Math.max(p[1], q[1]) + hw,
+      });
+    }
+  };
+
   for (const e of effectiveEdges(data, opts.edgeOverrides)) {
     const a = box[e.from];
     const b = box[e.to];
     if (!a || !b) continue;
+
+    // Always enclose the connector. The axis bridge below covers the gap
+    // between the two blocks, but a route that dog-legs outside that band —
+    // the part cooling duct running under everything to the nozzle — would
+    // otherwise poke through the outline.
+    sleeve(e.route, pad * 0.4);
+
     const y = span(a.y0, a.y1, b.y0, b.y1);
     if (y) {
       rects.push({ x0: Math.min(a.x0, b.x0), x1: Math.max(a.x1, b.x1), y0: y[0], y1: y[1] });
@@ -176,17 +212,7 @@ export function toolRegionRects(data, opts = {}) {
       rects.push({ x0: x[0], x1: x[1], y0: Math.min(a.y0, b.y0), y1: Math.max(a.y1, b.y1) });
       continue;
     }
-    // Blocks share no axis — follow the connector route instead.
-    const hw = pad * 0.65;
-    for (let i = 0; i < e.route.length - 1; i++) {
-      const [p, q] = [e.route[i], e.route[i + 1]];
-      rects.push({
-        x0: Math.min(p[0], q[0]) - hw,
-        x1: Math.max(p[0], q[0]) + hw,
-        y0: Math.min(p[1], q[1]) - hw,
-        y1: Math.max(p[1], q[1]) + hw,
-      });
-    }
+    // No shared axis and no bridge — the sleeve above is the whole connection.
   }
 
   return rects.map((r) => ({ x: r.x0, y: r.y0, w: r.x1 - r.x0, h: r.y1 - r.y0 }));
