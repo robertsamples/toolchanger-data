@@ -1,10 +1,7 @@
 site_name: Toolchanger data
 site_description: A reference for 3D printer toolchanger topologies
 
-# Set this once the site has an address — it drives canonical links and the
-# sitemap. Project page:  https://<user>.github.io/toolchanger-data/
-# Custom domain:          https://toolchangers.example/
-# site_url: https://<user>.github.io/toolchanger-data/
+site_url: https://toolchangers.baconmilkshake.com/
 
 docs_dir: docs
 site_dir: site

@@ -48,7 +48,11 @@ jobs:
       # artifact, but it costs nothing and stops Jekyll eating underscore paths.
       - run: touch site/.nojekyll
 
+      # enablement turns Pages on via the API if it is off, so a fresh clone of
+      # this repo does not need the settings toggle first.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
