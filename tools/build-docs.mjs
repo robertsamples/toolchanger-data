@@ -24,7 +24,6 @@ const read = (...p) => readFileSync(join(ROOT, ...p), 'utf8');
 const data = JSON.parse(read('data', 'toolhead-taxonomy.json'));
 const CLASS = Object.fromEntries(data.classes.map((c) => [c.id, c.label]));
 const ORG = data.tokens.origin;
-const PLATE_BG = '#FFFFFF';
 
 const warnings = [];
 const warn = (msg) => warnings.push(msg);
@@ -105,7 +104,7 @@ function writeSvg(name, svg) {
 // detail figures get finer strokes.
 const keyPath = writeSvg('key.svg', renderDiagram(data, {
   swaps: [], include: ['ams'], labels: true, boundary: false, legend: true,
-  background: PLATE_BG, strokeScale: 0.42,
+  strokeScale: 0.42,
 }));
 
 const figs = {};
@@ -117,9 +116,9 @@ for (const t of data.types) {
     edgeOverrides: t.edgeOverrides || [],
   };
   figs[t.id] = {
-    panel: writeSvg(`${t.id}.svg`, renderDiagram(data, { ...shared, labels: false, background: PLATE_BG })),
+    panel: writeSvg(`${t.id}.svg`, renderDiagram(data, { ...shared, labels: false })),
     full: writeSvg(`${t.id}-labeled.svg`, renderDiagram(data, {
-      ...shared, labels: true, background: PLATE_BG, strokeScale: 0.6,
+      ...shared, labels: true, strokeScale: 0.6,
     })),
   };
 }

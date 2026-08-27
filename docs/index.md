@@ -1,10 +1,8 @@
-# Toolchanger separation plane
+# Toolchanger Classes
 
 --8<-- "plate.html"
 
-## Toolchanger classes
-
-### Conventional toolchangers
+## Conventional toolchangers
 
 <details class="tc-details" id="type-full_conventional" markdown>
 <summary>Full conventional</summary>
@@ -54,7 +52,7 @@ The tool keeps the extruder and the hot end but leaves the part cooling fan on t
 
 </details>
 
-### Filament path changers
+## Filament path changers
 
 <details class="tc-details" id="type-gear_swapping" markdown>
 <summary>Gear swapping</summary>
@@ -148,7 +146,7 @@ The same split as inductive/pogo, but the heater and thermistor stay on a wire b
 
 </details>
 
-### Nozzle changers
+## Hotend changers
 
 <details class="tc-details" id="type-ams_assisted_hotend_changer" markdown>
 <summary>AMS-assisted hotend changers</summary>

@@ -9,8 +9,8 @@
 
   "tokens": {
     "stroke": "#042433",
-    "connector": "#156082",
-    "boundary": "#C00000",
+    "connector": "#3F8FD0",
+    "boundary": "#E85D52",
     "boundaryDash": "55 41.25",
     "strokeWidth": 6.875,
     "connectorWidth": 13.75,

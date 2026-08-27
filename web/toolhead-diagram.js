@@ -479,7 +479,9 @@ function renderLegend(data, box, strokeScale = 1) {
   const t = data.tokens;
   const out = [
     `<g class="td-legend">`,
-    `<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="none" ` +
+    // Opaque: the labels are colour-coded and those colours only work on a
+    // light ground, so the legend carries its own.
+    `<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="#FFFFFF" ` +
       `stroke="${t.stroke}" stroke-width="${round(t.strokeWidth * strokeScale)}"/>`,
   ];
   const text = (x, y, str, fill, weight) =>
@@ -489,7 +491,7 @@ function renderLegend(data, box, strokeScale = 1) {
       ` fill="${fill}">${esc(str)}</text>`;
 
   let y = box.y + pad;                       // top of the next row
-  out.push(text(box.x + pad, y + fs, 'Legend', t.stroke, 700));
+  out.push(text(box.x + pad, y + fs, 'Legend', t.stroke, 'bold'));
   y += line + gap;
 
   // the tool boundary, shown with the same dashed stroke the diagrams use
@@ -499,14 +501,15 @@ function renderLegend(data, box, strokeScale = 1) {
       `stroke="${t.boundary}" stroke-width="${round(t.connectorWidth * strokeScale)}" ` +
       `stroke-dasharray="16 12"/>`
   );
-  out.push(text(sw.x + sw.w + 16, y + fs, 'Tool', t.stroke));
+  out.push(text(sw.x + sw.w + 16, y + fs, 'Tool', t.stroke, 'bold'));
   y += line + gap;
 
-  // origin colours — one word per line keeps the box narrow, and semibold so
-  // the blue and the green stay apart at this size
+  // origin colours — one word per line keeps the box narrow, and bold so the
+  // blue and the green stay apart at this size. 600 is not safe here: SVG text
+  // falls back to regular if the family has no semibold face.
   for (const o of Object.values(t.origin)) {
     for (const word of o.label.split(' ')) {
-      out.push(text(box.x + pad, y + fs, word, o.color, 600));
+      out.push(text(box.x + pad, y + fs, word, o.color, 'bold'));
       y += line;
     }
     y += gap;

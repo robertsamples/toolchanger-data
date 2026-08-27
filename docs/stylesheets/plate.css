@@ -10,16 +10,21 @@
   --tc-rule: var(--md-default-fg-color--light);
   --tc-rule-soft: var(--md-default-fg-color--lightest);
   --tc-muted: var(--md-default-fg-color--light);
-  --tc-tool: #c00000;
   --tc-org-printer: #1f2328;
   --tc-org-toolhead: #215f9a;
   --tc-org-foss: #3b7d23;
+  /* Indigo, well clear of the steel blue used for commercial toolheads. */
+  --tc-name: #4f46e5;
 }
 [data-md-color-scheme="slate"] {
-  --tc-tool: #ff6b60;
+  /* Same major-to-minor gap as the light palette, pitched down so the rules
+     do not glare against the dark ground. */
+  --tc-rule: #98a3ae;
+  --tc-rule-soft: #414951;
   --tc-org-printer: #e6edf3;
   --tc-org-toolhead: #79b8ff;
   --tc-org-foss: #85cf68;
+  --tc-name: #a78bfa;
 }
 
 /* Wider content column — the plate needs the room. */
@@ -92,6 +97,7 @@
   gap: .55rem;
   padding: .5rem .6rem;
   color: inherit;
+  text-decoration: none;
   min-width: 0;
 }
 .tc-cell:hover { background: var(--md-default-fg-color--lightest); }
@@ -103,7 +109,7 @@
   font-size: .6rem;
   font-weight: 700;
   line-height: 1.3;
-  color: var(--md-typeset-a-color);
+  color: var(--tc-name);
 }
 .tc-cell-systems { display: block; margin: .18rem 0 0; }
 .tc-cell-systems > span {
