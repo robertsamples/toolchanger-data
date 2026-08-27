@@ -1,1 +1,7 @@
 site/
+node_modules/
+__pycache__/
+.venv/
+venv/
+.vercel
+.cache/

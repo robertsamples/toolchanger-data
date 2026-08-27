@@ -1,0 +1,6 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "python3 -m pip install --user -r requirements.txt && node tools/build-docs.mjs && python3 -m mkdocs build",
+  "outputDirectory": "site",
+  "framework": null
+}

@@ -1,37 +1,41 @@
 /**
- * build-docs.mjs — generate the docs site content.
+ * build-docs.mjs — regenerate the parts of the site that are derived from data.
  *
- * Reads:
- *   data/toolhead-taxonomy.json   the block template, the three classes, the eight types
- *   content/types/<id>.md         prose for each type — plain markdown, hand-written
- *   data/systems.csv              one row per shipping system, free-form columns
+ * docs/index.md is written by hand. This only produces what would be tedious or
+ * error-prone to keep in sync by hand:
  *
- * Writes:
- *   docs/assets/diagrams/*.svg    static diagrams, one per type plus the key
- *   docs/index.md                 the page
+ *   docs/assets/diagrams/*.svg   one diagram per type, plus the annotated key
+ *   snippets/plate.html          the taxonomy plate at the top of the page
+ *   snippets/type-<id>.md        that type's systems table, and any data note
  *
- * Nothing is generated in the browser — the site ships plain SVG files.
+ * The page pulls the snippets in with `--8<-- "..."`.
+ *
+ * Descriptions are read back out of docs/index.md, so the plate cell and the
+ * section below it always say the same thing: the summary is the first
+ * paragraph of a type's section.
  *
  *   node tools/build-docs.mjs
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderDiagram } from '../web/toolhead-diagram.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const DIAGRAMS = join(ROOT, 'docs', 'assets', 'diagrams');
 const read = (...p) => readFileSync(join(ROOT, ...p), 'utf8');
 
 const data = JSON.parse(read('data', 'toolhead-taxonomy.json'));
 const CLASS = Object.fromEntries(data.classes.map((c) => [c.id, c.label]));
 const ORG = data.tokens.origin;
-const PLATE = '#FFFFFF';
+const PLATE_BG = '#FFFFFF';
 
-/* ------------------------------------------------------------------ *
- * CSV
- * ------------------------------------------------------------------ */
+const warnings = [];
+const warn = (msg) => warnings.push(msg);
+
+/* ---------------------------------------------------------------- *
+ * systems.csv
+ * ---------------------------------------------------------------- */
 
 /** Minimal RFC4180 reader — handles quoted fields containing commas and newlines. */
 function parseCsv(text) {
@@ -63,45 +67,65 @@ function parseCsv(text) {
 const systems = parseCsv(read('data', 'systems.csv'));
 
 /**
- * Columns with no value anywhere are dropped, so the table grows as the
- * spreadsheet gets filled in rather than showing a wall of empty cells.
- * `type` is the join key, and is implied by the section a row appears under.
+ * A column that is empty for every row is left out, so the table grows as the
+ * spreadsheet is filled in. `type` is the join key and never shown.
  */
-const systemColumns = systems.columns.filter(
+const columns = systems.columns.filter(
   (c) => c !== 'type' && systems.rows.some((r) => r[c])
 );
 
-/* ------------------------------------------------------------------ *
- * Prose
+for (const r of systems.rows) {
+  if (!data.types.some((t) => t.id === r.type)) {
+    warn(`systems.csv: "${r.name}" has type "${r.type}", which is not in the taxonomy`);
+  }
+}
+
+/* ---------------------------------------------------------------- *
+ * Descriptions, read back out of the page
  *
- * One markdown file per type under content/types/. It is written by hand and
- * never regenerated. The first paragraph doubles as the one-line summary in the
- * plate, so it stays short; the whole body goes into the type's section.
- * ------------------------------------------------------------------ */
+ * A type's section runs from its <details> tag to the <div class="tc-clear">
+ * that separates the prose from the table. The first paragraph of that is the
+ * summary shown in the plate.
+ * ---------------------------------------------------------------- */
 
-function prose(id) {
-  const file = join(ROOT, 'content', 'types', `${id}.md`);
-  if (!existsSync(file)) return { body: '', summary: '' };
+const pageText = read('docs', 'index.md');
+const PLACEHOLDER = '_Description to follow._';
 
-  const body = readFileSync(file, 'utf8').replace(/<!--[\s\S]*?-->/g, '').trim();
-  const first = body.split(/\n\s*\n/).find((p) => p.trim() && !p.startsWith('#')) || '';
-  const summary = first
+function summaryFor(id) {
+  const start = pageText.indexOf(`id="type-${id}"`);
+  if (start === -1) {
+    warn(`docs/index.md has no section for type "${id}"`);
+    return '';
+  }
+  // skip past the opening tags so the first paragraph really is prose
+  const opened = pageText.indexOf('</summary>', start);
+  const from = opened === -1 ? start : opened + '</summary>'.length;
+  const end = pageText.indexOf('tc-clear', from);
+  const block = pageText.slice(from, end === -1 ? undefined : end);
+
+  const paragraph = block
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .find((p) => p && !p.startsWith('<') && !p.startsWith('![') && p !== PLACEHOLDER);
+
+  if (!paragraph) return '';
+  return paragraph
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')   // links keep their text
     .replace(/[*_`]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
-  return { body, summary };
 }
 
-/* ------------------------------------------------------------------ *
+/* ---------------------------------------------------------------- *
  * Diagrams
- * ------------------------------------------------------------------ */
+ * ---------------------------------------------------------------- */
 
-mkdirSync(DIAGRAMS, { recursive: true });
+mkdirSync(join(ROOT, 'docs', 'assets', 'diagrams'), { recursive: true });
+mkdirSync(join(ROOT, 'snippets'), { recursive: true });
 
 function writeSvg(name, svg) {
   const doc = `<?xml version="1.0" encoding="UTF-8"?>\n${svg.replace('<svg ', '<svg version="1.1" ')}\n`;
-  writeFileSync(join(DIAGRAMS, name), doc, 'utf8');
+  writeFileSync(join(ROOT, 'docs', 'assets', 'diagrams', name), doc, 'utf8');
   return `assets/diagrams/${name}`;
 }
 
@@ -110,7 +134,7 @@ function writeSvg(name, svg) {
 // detail figures get finer strokes.
 const keyPath = writeSvg('key.svg', renderDiagram(data, {
   swaps: [], include: ['ams'], labels: true, boundary: false, legend: true,
-  background: PLATE, strokeScale: 0.42,
+  background: PLATE_BG, strokeScale: 0.42,
 }));
 
 const figs = {};
@@ -122,24 +146,23 @@ for (const t of data.types) {
     edgeOverrides: t.edgeOverrides || [],
   };
   figs[t.id] = {
-    panel: writeSvg(`${t.id}.svg`, renderDiagram(data, { ...shared, labels: false, background: PLATE })),
+    panel: writeSvg(`${t.id}.svg`, renderDiagram(data, { ...shared, labels: false, background: PLATE_BG })),
     full: writeSvg(`${t.id}-labeled.svg`, renderDiagram(data, {
-      ...shared, labels: true, background: PLATE, strokeScale: 0.6,
+      ...shared, labels: true, background: PLATE_BG, strokeScale: 0.6,
     })),
   };
 }
 
-/* ------------------------------------------------------------------ *
- * Page
- * ------------------------------------------------------------------ */
+/* ---------------------------------------------------------------- *
+ * Snippets
+ * ---------------------------------------------------------------- */
 
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-const anchor = (t) => `type-${t.id}`;
 const heading = (col) => col.charAt(0).toUpperCase() + col.slice(1);
 
-function systemCell(row, col) {
+function cell(row, col) {
   const v = row[col];
   if (!v) return '';
   if (col === 'url') return `[link](${v})`;
@@ -149,33 +172,44 @@ function systemCell(row, col) {
   return v.replace(/\|/g, '\\|');   // a bare pipe would end the table cell
 }
 
-function systemsTable(rows) {
+function table(rows) {
   if (!rows.length) return ['_No systems recorded yet._'];
   return [
-    `| ${systemColumns.map(heading).join(' | ')} |`,
-    `| ${systemColumns.map(() => '---').join(' | ')} |`,
-    ...rows.map((r) => `| ${systemColumns.map((c) => systemCell(r, c)).join(' | ')} |`),
+    `| ${columns.map(heading).join(' | ')} |`,
+    `| ${columns.map(() => '---').join(' | ')} |`,
+    ...rows.map((r) => `| ${columns.map((c) => cell(r, c)).join(' | ')} |`),
   ];
 }
 
-/**
- * The plate is emitted as one HTML block with no blank lines — python-markdown
- * passes it through untouched that way.
- */
+const banner = '<!-- Generated by tools/build-docs.mjs. Edit data/, not this. -->';
+
+for (const t of data.types) {
+  const lines = [banner, ''];
+  if (t.note) lines.push('!!! note', '', `    ${t.note}`, '');
+  lines.push(...table(systems.rows.filter((r) => r.type === t.id)), '');
+  writeFileSync(join(ROOT, 'snippets', `type-${t.id}.md`), lines.join('\n'), 'utf8');
+}
+
+writeFileSync(
+  join(ROOT, 'snippets', 'systems-all.md'),
+  [banner, '', ...table(systems.rows), ''].join('\n'),
+  'utf8'
+);
+
+/** One HTML block with no blank lines — python-markdown passes it through as-is. */
 function plate() {
-  // the system list, coloured by origin, as in the source figure
-  const listFor = (t) => systems.rows
+  const list = (t) => systems.rows
     .filter((r) => r.type === t.id)
     .map((r) => `<span class="tc-org-${esc(r.origin)}">${esc(r.name)}</span>`)
     .join('');
 
-  const cell = (t) =>
-    `<a class="tc-cell" href="#${anchor(t)}">` +
+  const card = (t) =>
+    `<a class="tc-cell" href="#type-${esc(t.id)}">` +
       `<span class="tc-cell-fig"><img src="${figs[t.id].panel}" alt="${esc(t.label)} block diagram"></span>` +
       `<span class="tc-cell-txt">` +
         `<span class="tc-cell-name">${esc(t.label)}</span>` +
-        `<span class="tc-cell-systems">${listFor(t)}</span>` +
-        `<span class="tc-cell-desc">${esc(prose(t.id).summary) || '<em>Description to follow.</em>'}</span>` +
+        `<span class="tc-cell-systems">${list(t)}</span>` +
+        `<span class="tc-cell-desc">${esc(summaryFor(t.id)) || '<em>Description to follow.</em>'}</span>` +
       `</span>` +
     `</a>`;
 
@@ -183,7 +217,7 @@ function plate() {
     `<div class="tc-band">` +
       `<div class="tc-band-label"><span>${esc(CLASS[classId])}</span></div>` +
       `<div class="tc-band-body ${cls}">` +
-        data.types.filter((t) => t.class === classId).map(cell).join('') +
+        data.types.filter((t) => t.class === classId).map(card).join('') +
       `</div>` +
     `</div>`;
 
@@ -197,58 +231,11 @@ function plate() {
   `</div>`;
 }
 
-function typeSection(t) {
-  const rows = systems.rows.filter((r) => r.type === t.id);
+writeFileSync(join(ROOT, 'snippets', 'plate.html'), `${banner}\n${plate()}\n`, 'utf8');
 
-  const lines = [
-    `<details class="tc-details" id="${anchor(t)}" markdown>`,
-    `<summary>${esc(t.label)}</summary>`,
-    '',
-    `![${esc(t.label)}](${figs[t.id].full}){ .tc-detail-fig }`,
-    '',
-    prose(t.id).body || '_Description to follow._',
-    '',
-    // the figure floats beside the prose; the table starts below it
-    '<div class="tc-clear"></div>',
-    '',
-    ...systemsTable(rows),
-    '',
-  ];
-  if (t.note) lines.push('!!! note', '', `    ${t.note}`, '');
-  lines.push('</details>');
-  return lines.join('\n');
-}
+/* ---------------------------------------------------------------- */
 
-const page = [
-  '# Toolchanger separation plane',
-  '',
-  'Every toolchanger cuts the toolhead at a different height. Everything above the',
-  'cut is duplicated on every tool. Eight types, in three classes, all drawn from',
-  'the same block diagram.',
-  '',
-  plate(),
-  '',
-  '## Toolchanger classes',
-  '',
-  ...data.classes.flatMap((c) => [
-    `### ${c.label}`,
-    '',
-    ...data.types.filter((t) => t.class === c.id).flatMap((t) => [typeSection(t), '']),
-  ]),
-  '## All systems',
-  '',
-  ...systemsTable(systems.rows),
-  '',
-  '---',
-  '',
-  'Block diagram taxonomy after the original figure by **baconmilkshake**.',
-  '',
-].join('\n');
-
-writeFileSync(join(ROOT, 'docs', 'index.md'), page, 'utf8');
-
-const written = data.types.filter((t) => prose(t.id).body).length;
-console.log(`diagrams  ${data.types.length * 2 + 1} svg -> docs/assets/diagrams/`);
-console.log(`page      docs/index.md (${page.split('\n').length} lines)`);
-console.log(`prose     ${written}/${data.types.length} types written in content/types/`);
-console.log(`systems   ${systems.rows.length} rows; columns shown: ${systemColumns.join(', ')}`);
+console.log(`diagrams  ${data.types.length * 2 + 1} svg`);
+console.log(`snippets  plate.html, systems-all.md, ${data.types.length} type tables`);
+console.log(`systems   ${systems.rows.length} rows; columns shown: ${columns.join(', ')}`);
+for (const w of warnings) console.warn(`warning: ${w}`);

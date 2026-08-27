@@ -1,0 +1,4 @@
+# Docs toolchain. Zensical reads the same mkdocs.yml — to switch, replace the
+# line below with `zensical` and swap `mkdocs build` for `zensical build` in
+# .github/workflows/deploy.yml and vercel.json.
+mkdocs-material>=9.7,<10
