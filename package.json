@@ -1,0 +1,8 @@
+{
+  "name": "toolchanger-data",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:docs": "node tools/build-docs.mjs"
+  }
+}

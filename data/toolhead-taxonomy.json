@@ -1,0 +1,142 @@
+{
+  "$comment": "Extracted from 'toolchange fig.svg' by baconmilkshake. Every mini-diagram in that figure is the SAME 9-block template with the SAME 11 connectors; only the red dashed tool boundary moves. This file encodes the template once, then each type as the set of blocks inside the boundary. Systems live in data/systems.csv.",
+  "version": "1.0.0",
+  "source": {
+    "file": "toolchange fig.svg",
+    "credit": "baconmilkshake",
+    "units": "template units (1 unit = 1 SVG user unit in the source figure)"
+  },
+
+  "tokens": {
+    "stroke": "#042433",
+    "connector": "#156082",
+    "boundary": "#C00000",
+    "boundaryDash": "55 41.25",
+    "strokeWidth": 6.875,
+    "connectorWidth": 13.75,
+    "groups": {
+      "control":  { "fill": "#C1E5F5", "label": "Electronics" },
+      "drive":    { "fill": "#D1D1D1", "label": "Extrusion" },
+      "cooling":  { "fill": "#D9F2D0", "label": "Cooling" },
+      "hot":      { "fill": "#F4C2C2", "label": "Hot zone" },
+      "feed":     { "fill": "#D86ECC", "label": "Filament feed" }
+    },
+    "origin": {
+      "commercial-printer":  { "color": "#000000", "label": "Commercial printer" },
+      "commercial-toolhead": { "color": "#215F9A", "label": "Commercial toolhead" },
+      "foss":                { "color": "#3B7D23", "label": "FOSS design" }
+    }
+  },
+
+  "template": {
+    "viewBox": [-40, -134, 887, 714],
+    "blocks": [
+      { "id": "ams",              "label": "AMS",              "group": "feed",    "x": 630, "y": -94, "w": 232, "h":  89, "optional": true },
+      { "id": "mainboard",        "label": "Mainboard",        "group": "control", "x":   0, "y":   0, "w": 163, "h": 179 },
+      { "id": "toolhead_board",   "label": "Toolhead board",   "group": "control", "x": 218, "y":   0, "w": 199, "h": 179 },
+      { "id": "motor",            "label": "Motor",            "group": "drive",   "x": 460, "y":  32, "w": 162, "h": 179 },
+      { "id": "gears",            "label": "Gears",            "group": "drive",   "x": 682, "y":  96, "w": 125, "h":  52 },
+      { "id": "part_cooling_fan", "label": "Part cooling fan", "group": "cooling", "x": 256, "y": 278, "w": 125, "h": 178 },
+      { "id": "hotend_fan",       "label": "Hotend fan",       "group": "cooling", "x": 460, "y": 278, "w": 125, "h": 178 },
+      { "id": "heatsink",         "label": "Heatsink",         "group": "hot",     "x": 682, "y": 278, "w": 125, "h": 178 },
+      { "id": "nozzle",           "label": "Nozzle",           "group": "hot",     "x": 682, "y": 488, "w": 125, "h":  52 }
+    ],
+    "edges": [
+      { "from": "mainboard",       "to": "toolhead_board",   "kind": "signal",     "label": "Control bus",         "route": [[163,90],[218,90]] },
+      { "from": "toolhead_board",  "to": "motor",            "kind": "power",      "label": "Motor drive",         "route": [[417,121],[460,121]] },
+      { "from": "toolhead_board",  "to": "part_cooling_fan", "kind": "power",      "label": "Fan power",           "route": [[318,179],[318,278]] },
+      { "from": "toolhead_board",  "to": "hotend_fan",       "kind": "power",      "label": "Fan power",           "route": [[362,179],[362,257],[484,257],[484,278]] },
+      { "from": "toolhead_board",  "to": "heatsink",         "kind": "power",      "label": "Heater + thermistor", "route": [[404,179],[404,232],[703,232],[703,278]] },
+      { "from": "motor",           "to": "gears",            "kind": "mechanical", "label": "Drive train",         "route": [[622,121],[682,121]] },
+      { "from": "ams",             "to": "gears",            "kind": "filament",   "label": "Filament in",         "route": [[745,-5],[745,96]], "optional": true },
+      { "from": "gears",           "to": "heatsink",         "kind": "filament",   "label": "Filament path",       "route": [[745,148],[745,278]] },
+      { "from": "heatsink",        "to": "nozzle",           "kind": "filament",   "label": "Melt zone",           "route": [[745,456],[745,488]] },
+      { "from": "hotend_fan",      "to": "heatsink",         "kind": "air",        "label": "Heatbreak air",       "route": [[585,367],[682,367]] },
+      { "from": "part_cooling_fan","to": "nozzle",           "kind": "air",        "label": "Part cooling air",    "route": [[318,456],[318,514],[682,514]] }
+    ],
+    "edgeKinds": {
+      "signal":     { "label": "Data / control",   "interface": "connector" },
+      "power":      { "label": "Power",            "interface": "connector" },
+      "mechanical": { "label": "Mechanical drive", "interface": "coupling" },
+      "filament":   { "label": "Filament path",    "interface": "filament joint" },
+      "air":        { "label": "Airflow",          "interface": "duct" }
+    }
+  },
+
+  "classes": [
+    { "id": "conventional",  "label": "Conventional toolchangers" },
+    { "id": "filament_path", "label": "Filament path changers" },
+    { "id": "nozzle",        "label": "Nozzle changers" }
+  ],
+
+  "types": [
+    {
+      "id": "full_conventional",
+      "label": "Full conventional",
+      "class": "conventional",
+      "swaps": ["toolhead_board","motor","gears","part_cooling_fan","hotend_fan","heatsink","nozzle"]
+    },
+    {
+      "id": "partial_conventional",
+      "label": "Partial conventional",
+      "class": "conventional",
+      "swaps": ["motor","gears","hotend_fan","heatsink","nozzle"],
+      "partial": ["toolhead_board"],
+      "note": "In the source figure the dashed boundary cuts through the toolhead board rather than around it. Read as: some tool electronics travel, some stay. Worth verifying against the real machine."
+    },
+    {
+      "id": "gear_swapping",
+      "label": "Gear swapping",
+      "class": "filament_path",
+      "swaps": ["gears","hotend_fan","heatsink","nozzle"]
+    },
+    {
+      "id": "hotend_fan_swapping",
+      "label": "Hotend fan swapping",
+      "class": "filament_path",
+      "swaps": ["hotend_fan","heatsink","nozzle"],
+      "edgeOverrides": [
+        { "replaces": "toolhead_board>heatsink", "from": "mainboard", "to": "heatsink", "kind": "power",
+          "label": "Heater + thermistor, direct to mainboard",
+          "route": [[91,0],[91,-100],[880,-100],[880,330],[807,330]] },
+        { "replaces": "toolhead_board>hotend_fan", "from": "mainboard", "to": "hotend_fan", "kind": "power",
+          "label": "Fan power, direct to mainboard",
+          "route": [[50,0],[50,-58],[438,-58],[438,320],[460,320]] }
+      ]
+    },
+    {
+      "id": "inductive_pogo",
+      "label": "Inductive / pogo changers",
+      "class": "filament_path",
+      "swaps": ["heatsink","nozzle"],
+      "toolInterface": "contactless-or-pogo"
+    },
+    {
+      "id": "wired",
+      "label": "Wired",
+      "class": "filament_path",
+      "swaps": ["heatsink","nozzle"],
+      "toolInterface": "wired-tether",
+      "note": "Same swap set as inductive/pogo. The difference is how the heater/thermistor circuit crosses the boundary, not which blocks travel.",
+      "edgeOverrides": [
+        { "replaces": "toolhead_board>heatsink", "from": "mainboard", "to": "heatsink", "kind": "power",
+          "label": "Heater + thermistor, direct to mainboard",
+          "route": [[91,0],[91,-100],[880,-100],[880,330],[807,330]] }
+      ]
+    },
+    {
+      "id": "ams_assisted_toolchanger",
+      "label": "AMS-assisted toolchangers",
+      "class": "nozzle",
+      "swaps": ["heatsink","nozzle"],
+      "requires": ["ams"]
+    },
+    {
+      "id": "ams_assisted_nozzle_changer",
+      "label": "AMS-assisted nozzle changers",
+      "class": "nozzle",
+      "swaps": ["nozzle"],
+      "requires": ["ams"]
+    }
+  ]
+}

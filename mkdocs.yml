@@ -1,0 +1,37 @@
+site_name: Toolchanger data
+site_description: A reference for 3D printer toolchanger topologies
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.top
+    - toc.follow
+
+markdown_extensions:
+  - tables
+  - attr_list
+  - md_in_html
+  - admonition
+
+extra_css:
+  - stylesheets/plate.css
+
+extra_javascript:
+  - javascripts/jump.js
+
+nav:
+  - Classes and types: index.md

@@ -1,0 +1,185 @@
+@charset "UTF-8";
+
+/* Layout for the taxonomy plate on the front page.
+   Colours come from Material's own variables so both palettes work.
+   The diagrams carry their own white background, so they read on slate too. */
+
+:root {
+  /* Class boundaries are heavy, cells within a class are hairlines — the same
+     hierarchy the source figure draws with its panel boxes. */
+  --tc-rule: var(--md-default-fg-color--light);
+  --tc-rule-soft: var(--md-default-fg-color--lightest);
+  --tc-muted: var(--md-default-fg-color--light);
+  --tc-tool: #c00000;
+  --tc-org-printer: #1f2328;
+  --tc-org-toolhead: #215f9a;
+  --tc-org-foss: #3b7d23;
+}
+[data-md-color-scheme="slate"] {
+  --tc-tool: #ff6b60;
+  --tc-org-printer: #e6edf3;
+  --tc-org-toolhead: #79b8ff;
+  --tc-org-foss: #85cf68;
+}
+
+/* Wider content column — the plate needs the room. */
+.md-grid { max-width: 80rem; }
+
+/* ---------- plate ---------- */
+
+.tc-plate {
+  border: 2px solid var(--tc-rule);
+  overflow: hidden;
+  margin: 1.2rem 0;
+}
+.tc-plate img { display: block; width: 100%; height: auto; }
+
+.tc-top { display: flex; align-items: stretch; }
+.tc-top > .tc-key { flex: 1 1 44%; min-width: 0; padding: .6rem; }
+.tc-top > .tc-band { flex: 1 1 56%; min-width: 0; border-left: 2px solid var(--tc-rule); }
+
+/* ---------- key figure ---------- */
+
+/* The legend is drawn inside key.svg, so this is just the frame around it. */
+.tc-key-fig, .tc-key img { display: block; width: 100%; height: auto; }
+
+/* Origin colours, shared by the legend inside the SVG, the plate lists and the
+   system tables. Semibold — blue and green are hard to tell apart in thin type
+   at this size. */
+.tc-org-commercial-printer,
+.tc-org-commercial-toolhead,
+.tc-org-foss { font-weight: 600; }
+.tc-org-commercial-printer  { color: var(--tc-org-printer); }
+.tc-org-commercial-toolhead { color: var(--tc-org-toolhead); }
+.tc-org-foss                { color: var(--tc-org-foss); }
+
+/* ---------- class bands ---------- */
+
+.tc-plate > .tc-band { border-top: 2px solid var(--tc-rule); }
+.tc-band { display: flex; align-items: stretch; }
+.tc-band-label {
+  flex: 0 0 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tc-band-label span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: .55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  color: var(--md-default-fg-color);
+  white-space: nowrap;
+}
+.tc-band-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tc-band-body.tc-one { grid-template-columns: minmax(0, 1fr); }
+.tc-band-body > *:nth-child(even) { border-left: 1px solid var(--tc-rule-soft); }
+.tc-band-body > *:nth-child(n + 3) { border-top: 1px solid var(--tc-rule-soft); }
+.tc-band-body.tc-one > *:nth-child(even) { border-left: 0; }
+.tc-band-body.tc-one > * + * { border-top: 1px solid var(--tc-rule-soft); }
+
+/* ---------- type cell ---------- */
+
+.tc-cell {
+  display: flex;
+  gap: .55rem;
+  padding: .5rem .6rem;
+  color: inherit;
+  min-width: 0;
+}
+.tc-cell:hover { background: var(--md-default-fg-color--lightest); }
+.tc-cell:hover .tc-cell-name { text-decoration: underline; }
+.tc-cell-fig { flex: 0 0 170px; max-width: 170px; }
+.tc-cell-txt { flex: 1 1 0; min-width: 0; }
+.tc-cell-name {
+  display: block;
+  font-size: .6rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--md-typeset-a-color);
+}
+.tc-cell-systems { display: block; margin: .18rem 0 .22rem; }
+.tc-cell-systems > span {
+  display: block;
+  font-size: .55rem;
+  line-height: 1.4;
+}
+.tc-cell-systems > span::before {
+  content: "– ";
+  color: var(--tc-muted);
+  font-weight: 400;
+}
+.tc-cell-desc {
+  display: block;
+  font-size: .55rem;
+  line-height: 1.5;
+  color: var(--tc-muted);
+}
+
+@media screen and (max-width: 76.1875em) {
+  .tc-top { display: block; }
+  .tc-top > .tc-band { border-left: 0; border-top: 2px solid var(--tc-rule); }
+}
+@media screen and (max-width: 44.9375em) {
+  .tc-band-body { grid-template-columns: minmax(0, 1fr); }
+  .tc-band-body > *:nth-child(even) { border-left: 0; }
+  .tc-band-body > * + * { border-top: 1px solid var(--tc-rule-soft); }
+}
+
+/* ---------- type sections ---------- */
+
+.md-typeset details.tc-details {
+  border: 1px solid var(--tc-rule-soft);
+  border-radius: 3px;
+  box-shadow: none;
+  padding: 0;
+  margin: .4rem 0;
+  font-size: .68rem;
+}
+.md-typeset details.tc-details > summary {
+  padding: .45rem .7rem;
+  font-size: .72rem;
+  font-weight: 700;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  list-style: none;
+}
+/* Material styles a bare <details> as an admonition — replace its icon and
+   chevron with a plain disclosure marker. */
+.md-typeset details.tc-details > summary::after { content: none; }
+.md-typeset details.tc-details > summary::-webkit-details-marker { display: none; }
+.md-typeset details.tc-details > summary::before {
+  content: "▸";
+  position: static;
+  display: inline-block;
+  width: 1em;
+  height: auto;
+  background: none;
+  color: var(--tc-muted);
+  font-size: .85em;
+}
+.md-typeset details.tc-details[open] > summary::before { content: "▾"; }
+.md-typeset details.tc-details > summary:hover { background: var(--md-default-fg-color--lightest); }
+.md-typeset details.tc-details[open] > summary { border-bottom: 1px solid var(--tc-rule-soft); }
+.md-typeset details.tc-details > *:not(summary) { margin-left: .7rem; margin-right: .7rem; }
+.md-typeset details.tc-details > *:last-child { margin-bottom: .7rem; }
+
+.md-typeset .tc-detail-fig {
+  float: right;
+  width: 280px;
+  max-width: 42%;
+  margin: .5rem 0 .5rem .9rem;
+}
+.tc-clear { clear: both; height: 0; }
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .tc-detail-fig { float: none; width: 100%; max-width: 100%; margin: .5rem 0; }
+}
