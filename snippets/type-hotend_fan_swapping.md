@@ -5,3 +5,4 @@
 | <span class="tc-org-commercial-printer">M1D</span> | Commercial printer |
 | <span class="tc-org-foss">A4T-C</span> | FOSS design |
 | <span class="tc-org-foss">MedusaHC</span> | FOSS design |
+| <span class="tc-org-foss">Ronin</span> | FOSS design |

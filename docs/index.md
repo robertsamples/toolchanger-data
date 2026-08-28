@@ -56,9 +56,9 @@ The tool keeps the extruder and the hot end but leaves the part cooling fan on t
 ## Filament path changers
 
 <details class="note" id="type-gear_swapping" markdown>
-<summary>Gear swapping</summary>
+<summary>Gear swapping path changers</summary>
 
-![Gear swapping](assets/diagrams/gear_swapping-labeled.svg){ .tc-detail-fig }
+![Gear swapping path changers](assets/diagrams/gear_swapping-labeled.svg){ .tc-detail-fig }
 
 The extruder motor stays on the carriage and the drive gears travel with the tool along with the hot end. The split is in the middle of the extruder.
 
@@ -80,9 +80,9 @@ The extruder motor stays on the carriage and the drive gears travel with the too
 </details>
 
 <details class="note" id="type-hotend_fan_swapping" markdown>
-<summary>Hotend fan swapping</summary>
+<summary>Hotend fan swapping path changers</summary>
 
-![Hotend fan swapping](assets/diagrams/hotend_fan_swapping-labeled.svg){ .tc-detail-fig }
+![Hotend fan swapping path changers](assets/diagrams/hotend_fan_swapping-labeled.svg){ .tc-detail-fig }
 
 The hot end travels with its own heat break fan. The extruder and part cooling stay behind, the extruder gears open for filament path changes.
 
@@ -105,9 +105,9 @@ The hot end travels with its own heat break fan. The extruder and part cooling s
 </details>
 
 <details class="note" id="type-inductive_pogo" markdown>
-<summary>Inductive / pogo changers</summary>
+<summary>Inductive / pogo path changers</summary>
 
-![Inductive / pogo changers](assets/diagrams/inductive_pogo-labeled.svg){ .tc-detail-fig }
+![Inductive / pogo path changers](assets/diagrams/inductive_pogo-labeled.svg){ .tc-detail-fig }
 
 Only the heat break and nozzle travel. The heater and thermistor cross the joint through spring pins or by inductive control, so nothing is plugged in by hand.
 
@@ -135,9 +135,9 @@ Only the heat break and nozzle travel. The heater and thermistor cross the joint
 </details>
 
 <details class="note" id="type-wired" markdown>
-<summary>Wired</summary>
+<summary>Wired path changers</summary>
 
-![Wired](assets/diagrams/wired-labeled.svg){ .tc-detail-fig }
+![Wired path changers](assets/diagrams/wired-labeled.svg){ .tc-detail-fig }
 
 The same split as inductive/pogo, but the heater and thermistor stay on a wire back to the board instead of crossing a contact.
 

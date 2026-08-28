@@ -86,13 +86,13 @@
     },
     {
       "id": "gear_swapping",
-      "label": "Gear swapping",
+      "label": "Gear swapping path changers",
       "class": "filament_path",
       "swaps": ["gears","hotend_fan","heatsink","nozzle"]
     },
     {
       "id": "hotend_fan_swapping",
-      "label": "Hotend fan swapping",
+      "label": "Hotend fan swapping path changers",
       "class": "filament_path",
       "swaps": ["hotend_fan","heatsink","nozzle"],
       "edgeOverrides": [
@@ -106,14 +106,14 @@
     },
     {
       "id": "inductive_pogo",
-      "label": "Inductive / pogo changers",
+      "label": "Inductive / pogo path changers",
       "class": "filament_path",
       "swaps": ["heatsink","nozzle"],
       "toolInterface": "contactless-or-pogo"
     },
     {
       "id": "wired",
-      "label": "Wired",
+      "label": "Wired path changers",
       "class": "filament_path",
       "swaps": ["heatsink","nozzle"],
       "toolInterface": "wired-tether",
