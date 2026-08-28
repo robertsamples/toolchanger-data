@@ -82,7 +82,7 @@
       "class": "conventional",
       "swaps": ["motor","gears","hotend_fan","heatsink","nozzle"],
       "partial": ["toolhead_board"],
-      "note": "In the source figure the dashed boundary cuts through the toolhead board rather than around it. Read as: some tool electronics travel, some stay. Worth verifying against the real machine."
+      "note": "The dashed boundary cuts through the toolhead board rather than around it. This is because many systems have split electronics packages."
     },
     {
       "id": "gear_swapping",

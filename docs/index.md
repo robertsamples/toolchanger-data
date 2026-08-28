@@ -9,18 +9,19 @@
 
 ![Full conventional](assets/diagrams/full_conventional-labeled.svg){ .tc-detail-fig }
 
-The whole toolhead travels. Each tool carries its own extruder motor, gears, fans, heat break and control board, so the only thing broken at a change is the link back to the mainboard.
+The whole toolhead is functionally a tool with a basic carriage being coupled to the belt. Each tool carries its own extruder motor, gears, fans, heat break and sometimes a toolhead board. The oldest type of 3D printer toolchanger.
 
 **Pros**
 
-- One connection to break and remake.
+- Uses close to standard toolheads.
+- Failure modes are straightforward.
 - Tools are self-contained, so one can be built or debugged on its own.
 - Nothing is shared between tools, so a fault stays in one tool.
 
 **Cons**
 
-- A tool costs a whole toolhead.
-- Most mass to accelerate and to dock.
+- A tool costs a whole toolhead — costly.
+- Kinematic mount carries a large amount of weight and must be rigid.
 - Most parts per tool to keep calibrated.
 
 <div class="tc-clear"></div>
@@ -38,12 +39,12 @@ The tool keeps the extruder and the hot end but leaves the part cooling fan on t
 
 **Pros**
 
-- Cheaper per tool than a full toolhead.
+- Cheaper per tool than a full toolhead, less wiring.
 - Part cooling and its duct never have to survive docking.
 
 **Cons**
 
-- Part cooling has to reach whatever tool is mounted.
+- Limited part cooling options.
 - More connections cross the joint than in a full conventional.
 
 <div class="tc-clear"></div>
@@ -65,11 +66,12 @@ The extruder motor stays on the carriage and the drive gears travel with the too
 
 - Motor mass stays off the tool.
 - Cheaper tools than carrying a whole extruder.
+- Filament path is not modified.
 
 **Cons**
 
 - The drive coupling has to re-engage accurately every change.
-- Filament stays loaded in the tool between changes.
+- Requires custom motor.
 
 <div class="tc-clear"></div>
 
@@ -82,17 +84,19 @@ The extruder motor stays on the carriage and the drive gears travel with the too
 
 ![Hotend fan swapping](assets/diagrams/hotend_fan_swapping-labeled.svg){ .tc-detail-fig }
 
-The hot end travels with its own heat break fan. The extruder and part cooling stay behind, so filament is cut or retracted at the change.
+The hot end travels with its own heat break fan. The extruder and part cooling stay behind, the extruder gears open for filament path changes.
 
 **Pros**
 
 - Small, cheap tools.
-- Each hot end keeps the heat break fan it was designed around.
+- Prevents heat creep compared to systems that do not carry a hotend fan, more flexibility for preheating.
 
 **Cons**
 
-- Filament has to be pulled clear before a change and re-fed after.
-- Fan power and the heater circuit both cross the joint.
+- Gears have to open and reengage filament path every time.
+- More challenging for flexible materials than conventional toolchangers.
+- More wiring than similar systems that don't carry a hotend fan on the tool.
+- Extruder places variable load on kinematic coupling.
 
 <div class="tc-clear"></div>
 
@@ -105,17 +109,24 @@ The hot end travels with its own heat break fan. The extruder and part cooling s
 
 ![Inductive / pogo changers](assets/diagrams/inductive_pogo-labeled.svg){ .tc-detail-fig }
 
-Only the heat break and nozzle travel. The heater and thermistor cross the joint through spring pins or an inductive coupling, so nothing is plugged in by hand.
+Only the heat break and nozzle travel. The heater and thermistor cross the joint through spring pins or by inductive control, so nothing is plugged in by hand.
 
 **Pros**
 
-- Smallest and cheapest tools of the filament path changers.
+- Smallest and, in theory, cheapest tools of the filament path changers.
 - No cable to route or manage per tool.
+- For induction heating is very fast.
 
 **Cons**
 
 - The contact has to carry heater current for thousands of cycles.
 - Dirt or oxide at the interface shows up as a heating fault.
+- Gears have to open and reengage filament path every time.
+- More challenging for flexible materials than conventional toolchangers.
+- Cannot preheat tools.
+- Inductive heating requires steel blocks which have lower thermal conductivity.
+- Inductive heating requires IR monitoring of temperature — which is less precise and reliable than a thermistor.
+- Extruder places variable load on kinematic coupling.
 
 <div class="tc-clear"></div>
 
@@ -134,11 +145,16 @@ The same split as inductive/pogo, but the heater and thermistor stay on a wire b
 
 - A crimped or soldered joint is more predictable than a contact.
 - No pin wear.
+- No custom electronics.
+- Can be preheated.
 
 **Cons**
 
-- Each tool stays tethered, which limits where tools can be parked.
-- Cable management gets harder with every tool added.
+- Without a dock fan preheating could cause heat creep.
+- More wiring, requires redundant mosfets and thermistor pins.
+- Gears have to open and reengage filament path every time.
+- More challenging for flexible materials than conventional toolchangers.
+- Extruder places variable load on kinematic coupling.
 
 <div class="tc-clear"></div>
 
@@ -159,11 +175,14 @@ A hot end changer paired with an automatic material system. The AMS handles fila
 
 - Filament handling and tool changing stay separate problems.
 - Cheap tools.
+- Aesthetically pleasing — easier to put a low lid on.
 
 **Cons**
 
 - Depends on the AMS to feed and retract reliably.
-- Purge and load time on every material change.
+- Load time on every material change.
+- Mechanically complex swapping mechanism.
+- Requires purchasing an AMS.
 
 <div class="tc-clear"></div>
 
@@ -181,12 +200,13 @@ Only the nozzle is swapped. The heat break, fans and extruder all stay on the ma
 **Pros**
 
 - The smallest and cheapest thing to duplicate per tool.
-- Almost no mass added to the carriage.
 
 **Cons**
 
-- The nozzle joint has to seal at temperature every time.
-- Everything upstream is shared, so tools can only differ in nozzle geometry.
+- Depends on the AMS to feed and retract reliably.
+- Load time on every material change.
+- Mechanically complex swapping mechanism.
+- Requires purchasing an AMS.
 
 <div class="tc-clear"></div>
 

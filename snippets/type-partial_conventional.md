@@ -2,7 +2,7 @@
 
 !!! note
 
-    In the source figure the dashed boundary cuts through the toolhead board rather than around it. Read as: some tool electronics travel, some stay. Worth verifying against the real machine.
+    The dashed boundary cuts through the toolhead board rather than around it. This is because many systems have split electronics packages.
 
 | Name | Origin |
 | --- | --- |

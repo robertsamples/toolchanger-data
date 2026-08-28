@@ -6,6 +6,11 @@ site_url: https://toolchangers.baconmilkshake.com/
 docs_dir: docs
 site_dir: site
 
+# snippets/ lives outside docs_dir, so `mkdocs serve` would not otherwise
+# notice when tools/build-docs.mjs regenerates it.
+watch:
+  - snippets
+
 theme:
   name: material
   palette:

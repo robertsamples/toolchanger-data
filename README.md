@@ -41,7 +41,8 @@ for every row are left out of the tables.
 The first paragraph of a type's section in `docs/index.md` is reused as its
 one-line summary in the plate at the top of the page.
 
-Re-run `node tools/build-docs.mjs` after changing the CSV or the taxonomy.
+Re-run `node tools/build-docs.mjs` after changing the CSV or the taxonomy. If
+`mkdocs serve` is running it reloads on its own once the script finishes.
 
 ## Generated files
 

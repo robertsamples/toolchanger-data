@@ -6,6 +6,6 @@
 | <span class="tc-org-commercial-toolhead">E3D toolchanger</span> | Commercial toolhead |
 | <span class="tc-org-foss">Stealthchanger</span> | FOSS design |
 | <span class="tc-org-foss">Tapchanger</span> | FOSS design |
-| <span class="tc-org-foss">Madam</span> | FOSS design |
+| <span class="tc-org-foss">Madmax</span> | FOSS design |
 | <span class="tc-org-foss">Daksh</span> | FOSS design |
 | <span class="tc-org-foss">Lineux</span> | FOSS design |

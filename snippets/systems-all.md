@@ -6,7 +6,7 @@
 | <span class="tc-org-commercial-toolhead">E3D toolchanger</span> | Commercial toolhead |
 | <span class="tc-org-foss">Stealthchanger</span> | FOSS design |
 | <span class="tc-org-foss">Tapchanger</span> | FOSS design |
-| <span class="tc-org-foss">Madam</span> | FOSS design |
+| <span class="tc-org-foss">Madmax</span> | FOSS design |
 | <span class="tc-org-foss">Daksh</span> | FOSS design |
 | <span class="tc-org-foss">Lineux</span> | FOSS design |
 | <span class="tc-org-commercial-printer">U1</span> | Commercial printer |
@@ -18,7 +18,7 @@
 | <span class="tc-org-commercial-toolhead">INDX</span> | Commercial toolhead |
 | <span class="tc-org-foss">Quindecum</span> | FOSS design |
 | <span class="tc-org-commercial-printer">Klitek</span> | Commercial printer |
-| <span class="tc-org-foss">CX Changer</span> | FOSS design |
+| <span class="tc-org-foss">CXchanger</span> | FOSS design |
 | <span class="tc-org-commercial-printer">Vortek</span> | Commercial printer |
 | <span class="tc-org-commercial-printer">Atomform</span> | Commercial printer |
 | <span class="tc-org-commercial-toolhead">Swapper3d</span> | Commercial toolhead |
