@@ -31,6 +31,7 @@
   "template": {
     "viewBox": [-40, -134, 887, 714],
     "blocks": [
+      { "id": "filament_in",      "label": "Filament",         "group": "feed",    "x": 741, "y": -40, "w":   8, "h":   8, "virtual": true },
       { "id": "ams",              "label": "AMS",              "group": "feed",    "x": 630, "y": -94, "w": 232, "h":  89, "optional": true },
       { "id": "mainboard",        "label": "Mainboard",        "group": "control", "x":   0, "y":   0, "w": 163, "h": 179 },
       { "id": "toolhead_board",   "label": "Toolhead board",   "group": "control", "x": 218, "y":   0, "w": 199, "h": 179 },
@@ -48,7 +49,7 @@
       { "from": "toolhead_board",  "to": "hotend_fan",       "kind": "power",      "label": "Fan power",           "route": [[362,179],[362,257],[484,257],[484,278]] },
       { "from": "toolhead_board",  "to": "heatsink",         "kind": "power",      "label": "Heater + thermistor", "route": [[404,179],[404,232],[703,232],[703,278]] },
       { "from": "motor",           "to": "gears",            "kind": "mechanical", "label": "Drive train",         "route": [[622,121],[682,121]] },
-      { "from": "ams",             "to": "gears",            "kind": "filament",   "label": "Filament in",         "route": [[745,-5],[745,96]], "optional": true },
+      { "from": "filament_in",     "to": "gears",            "kind": "filament",   "label": "Filament in",         "route": [[745,-40],[745,96]] },
       { "from": "gears",           "to": "heatsink",         "kind": "filament",   "label": "Filament path",       "route": [[745,148],[745,278]] },
       { "from": "heatsink",        "to": "nozzle",           "kind": "filament",   "label": "Melt zone",           "route": [[745,456],[745,488]] },
       { "from": "hotend_fan",      "to": "heatsink",         "kind": "air",        "label": "Heatbreak air",       "route": [[585,367],[682,367]] },
@@ -74,27 +75,32 @@
       "id": "full_conventional",
       "label": "Full conventional",
       "class": "conventional",
-      "swaps": ["toolhead_board","motor","gears","part_cooling_fan","hotend_fan","heatsink","nozzle"]
+      "swaps": ["toolhead_board","motor","gears","part_cooling_fan","hotend_fan","heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears"]
     },
     {
       "id": "partial_conventional",
       "label": "Partial conventional",
       "class": "conventional",
       "swaps": ["motor","gears","hotend_fan","heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears"],
       "partial": ["toolhead_board"],
+      "partialAt": { "toolhead_board": 380 },
       "note": "The dashed boundary cuts through the toolhead board rather than around it. This is because many systems have split electronics packages."
     },
     {
       "id": "gear_swapping",
       "label": "Gear swapping path changers",
       "class": "filament_path",
-      "swaps": ["gears","hotend_fan","heatsink","nozzle"]
+      "swaps": ["gears","hotend_fan","heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears", "gears>heatsink"]
     },
     {
       "id": "hotend_fan_swapping",
       "label": "Hotend fan swapping path changers",
       "class": "filament_path",
       "swaps": ["hotend_fan","heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears", "gears>heatsink"],
       "edgeOverrides": [
         { "replaces": "toolhead_board>heatsink", "from": "mainboard", "to": "heatsink", "kind": "power",
           "label": "Heater + thermistor, direct to mainboard",
@@ -109,6 +115,7 @@
       "label": "Inductive / pogo path changers",
       "class": "filament_path",
       "swaps": ["heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears", "gears>heatsink"],
       "toolInterface": "contactless-or-pogo"
     },
     {
@@ -116,6 +123,7 @@
       "label": "Wired path changers",
       "class": "filament_path",
       "swaps": ["heatsink","nozzle"],
+      "swapsEdges": ["filament_in>gears", "gears>heatsink"],
       "toolInterface": "wired-tether",
       "note": "Same swap set as inductive/pogo. The difference is how the heater/thermistor circuit crosses the boundary, not which blocks travel.",
       "edgeOverrides": [

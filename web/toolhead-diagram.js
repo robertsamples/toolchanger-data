@@ -150,7 +150,7 @@ const round = (n) => Math.round(n * 100) / 100;
  * bounding-box outlines and the notched L-shapes alike.
  */
 export function toolRegionRects(data, opts = {}) {
-  const { swaps = [], partial = [], include = [], pad = 40 } = opts;
+  const { swaps = [], partial = [], include = [], swapsEdges = [], partialAt = {}, pad = 40 } = opts;
   const inTool = new Set([...swaps, ...partial]);
   const shown = new Set(
     data.template.blocks
@@ -163,13 +163,18 @@ export function toolRegionRects(data, opts = {}) {
   const rects = [];
   for (const b of data.template.blocks) {
     if (!inTool.has(b.id) || !shown.has(b.id)) continue;
-    // A bisected block contributes only its travelling half.
-    const x = partSet.has(b.id) ? b.x + b.w / 2 : b.x;
-    const w = partSet.has(b.id) ? b.w / 2 : b.w;
+    // A bisected block contributes only its travelling side. The cut defaults
+    // to the middle, but a type can place it — between two connectors, say, so
+    // the boundary falls on the correct side of each.
+    const cut = partSet.has(b.id) ? (partialAt[b.id] ?? b.x + b.w / 2) : b.x;
+    const x = cut;
+    const w = partSet.has(b.id) ? b.x + b.w - cut : b.w;
     const r = { x0: x - pad, y0: b.y - pad, x1: x + w + pad, y1: b.y + b.h + pad };
     box[b.id] = r;
     rects.push(r);
   }
+
+  const blockById = Object.fromEntries(data.template.blocks.map((b) => [b.id, b]));
 
   const span = (a0, a1, b0, b1) => {
     const lo = Math.max(a0, b0);
@@ -179,17 +184,35 @@ export function toolRegionRects(data, opts = {}) {
 
   // A sleeve around the wire itself. Thin enough not to swallow a neighbouring
   // block, wide enough that the dashed outline clears the stroke.
-  const sleeve = (route, hw) => {
+  //
+  // capFirst/capLast stop the sleeve square at the end of the run instead of
+  // overshooting it. The filament inlet uses that: without it the boundary
+  // sprouts a small tab above the line's free end.
+  const sleeve = (route, hw, capFirst = false, capLast = false) => {
     for (let i = 0; i < route.length - 1; i++) {
       const [p, q] = [route[i], route[i + 1]];
-      rects.push({
+      const r = {
         x0: Math.min(p[0], q[0]) - hw,
         x1: Math.max(p[0], q[0]) + hw,
         y0: Math.min(p[1], q[1]) - hw,
         y1: Math.max(p[1], q[1]) + hw,
-      });
+      };
+      const flat = (end, at) => {
+        if (Math.abs(p[0] - q[0]) < EPS) {
+          if (at[1] < (at === p ? q[1] : p[1])) r.y0 = at[1]; else r.y1 = at[1];
+        } else if (at[0] < (at === p ? q[0] : p[0])) r.x0 = at[0]; else r.x1 = at[0];
+      };
+      if (i === 0 && capFirst) flat('first', p);
+      if (i === route.length - 2 && capLast) flat('last', q);
+      rects.push(r);
     }
   };
+
+  // Rows are found transitively: toolhead board -> motor -> gears is one run,
+  // so the band spans all three rather than stepping down at each join.
+  const parent = {};
+  const find = (x) => (parent[x] === undefined || parent[x] === x ? (parent[x] = x) : (parent[x] = find(parent[x])));
+  const union = (a, b) => { parent[find(a)] = find(b); };
 
   for (const e of effectiveEdges(data, opts.edgeOverrides)) {
     const a = box[e.from];
@@ -204,6 +227,11 @@ export function toolRegionRects(data, opts = {}) {
 
     const y = span(a.y0, a.y1, b.y0, b.y1);
     if (y) {
+      // Blocks that line up in a row are merged below into one straight band,
+      // so the boundary runs across the row instead of stepping around each
+      // block. Blocks that merely clip each other keep the tighter bridge.
+      const shorter = Math.min(a.y1 - a.y0, b.y1 - b.y0);
+      if (y[1] - y[0] > shorter * 0.5) { union(e.from, e.to); continue; }
       rects.push({ x0: Math.min(a.x0, b.x0), x1: Math.max(a.x1, b.x1), y0: y[0], y1: y[1] });
       continue;
     }
@@ -213,6 +241,46 @@ export function toolRegionRects(data, opts = {}) {
       continue;
     }
     // No shared axis and no bridge — the sleeve above is the whole connection.
+  }
+
+  // One squared-off band per row.
+  const rows = {};
+  for (const id of Object.keys(box)) (rows[find(id)] ||= []).push(box[id]);
+  for (const group of Object.values(rows)) {
+    if (group.length < 2) continue;
+    rects.push({
+      x0: Math.min(...group.map((r) => r.x0)),
+      x1: Math.max(...group.map((r) => r.x1)),
+      y0: Math.min(...group.map((r) => r.y0)),
+      y1: Math.max(...group.map((r) => r.y1)),
+    });
+  }
+
+  // Connectors the type claims outright. This is how a type takes the filament
+  // path without taking the parts it runs through: the boundary becomes a
+  // narrow channel following the line, no wider than the line needs.
+  const claimed = new Set(swapsEdges);
+  const hw = pad * 0.45;
+
+  for (const e of effectiveEdges(data, opts.edgeOverrides)) {
+    if (!claimed.has(`${e.from}>${e.to}`)) continue;
+    // a virtual endpoint is the open end of the run — square the sleeve off there
+    sleeve(e.route, hw, !!blockById[e.from]?.virtual, !!blockById[e.to]?.virtual);
+
+    // A claimed route stops at the edge of whatever block it runs into. Where
+    // that block stays on the machine, carry the channel straight through it,
+    // so the claimed path is continuous rather than a string of islands.
+    for (const [id, seg] of [[e.from, e.route.slice(0, 2)], [e.to, e.route.slice(-2)]]) {
+      if (inTool.has(id)) continue;
+      const b = blockById[id];
+      if (!b || !shown.has(b.id)) continue;
+      const [p, q] = seg;
+      if (Math.abs(p[0] - q[0]) < EPS) {
+        rects.push({ x0: p[0] - hw, x1: p[0] + hw, y0: b.y, y1: b.y + b.h });
+      } else {
+        rects.push({ x0: b.x, x1: b.x + b.w, y0: p[1] - hw, y1: p[1] + hw });
+      }
+    }
   }
 
   return rects.map((r) => ({ x: r.x0, y: r.y0, w: r.x1 - r.x0, h: r.y1 - r.y0 }));
@@ -328,6 +396,8 @@ export function renderDiagram(data, opts = {}) {
     swaps = [],
     partial = [],
     include = [],
+    swapsEdges = [],
+    partialAt = {},
     labels = true,
     boundary = true,
     crossings = false,
@@ -360,7 +430,7 @@ export function renderDiagram(data, opts = {}) {
   const loops =
     boundary && (swaps.length || partial.length)
       ? traceOutline(
-          toolRegionRects(data, { swaps, partial, include, edgeOverrides, pad: opts.pad ?? 40 }),
+          toolRegionRects(data, { swaps, partial, include, swapsEdges, partialAt, edgeOverrides, pad: opts.pad ?? 40 }),
           0
         )
       : [];
@@ -408,6 +478,7 @@ export function renderDiagram(data, opts = {}) {
 
   // Blocks.
   for (const b of shown) {
+    if (b.virtual) continue;   // an endpoint for a connector, not a real part
     const g = t.groups[b.group];
     const onTool = swapSet.has(b.id);
     const isPartial = partSet.has(b.id);
@@ -579,6 +650,9 @@ export function renderType(data, id, opts = {}) {
     swaps: a.swaps,
     partial: a.partial || [],
     include: a.requires || [],
+    swapsEdges: a.swapsEdges || [],
+    partialAt: a.partialAt || {},
+    edgeOverrides: a.edgeOverrides || [],
     ...opts,
   });
 }

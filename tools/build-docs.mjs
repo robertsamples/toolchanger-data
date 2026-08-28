@@ -113,6 +113,8 @@ for (const t of data.types) {
     swaps: t.swaps,
     partial: t.partial || [],
     include: t.requires || [],
+    swapsEdges: t.swapsEdges || [],
+    partialAt: t.partialAt || {},
     edgeOverrides: t.edgeOverrides || [],
   };
   figs[t.id] = {
