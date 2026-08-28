@@ -20,6 +20,7 @@
 | <span class="tc-org-foss">Quindecum</span> | FOSS design |
 | <span class="tc-org-commercial-printer">Klitek</span> | Commercial printer |
 | <span class="tc-org-foss">CXchanger</span> | FOSS design |
+| <span class="tc-org-foss">YUDX</span> | FOSS design |
 | <span class="tc-org-commercial-printer">Vortek</span> | Commercial printer |
 | <span class="tc-org-commercial-printer">Atomform</span> | Commercial printer |
 | <span class="tc-org-commercial-toolhead">Swapper3d</span> | Commercial toolhead |

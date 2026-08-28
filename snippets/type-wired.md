@@ -8,3 +8,4 @@
 | --- | --- |
 | <span class="tc-org-commercial-printer">Klitek</span> | Commercial printer |
 | <span class="tc-org-foss">CXchanger</span> | FOSS design |
+| <span class="tc-org-foss">YUDX</span> | FOSS design |
