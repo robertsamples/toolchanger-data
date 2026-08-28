@@ -4,7 +4,7 @@
 
 ## Conventional toolchangers
 
-<details class="tc-details" id="type-full_conventional" markdown>
+<details class="note" id="type-full_conventional" markdown>
 <summary>Full conventional</summary>
 
 ![Full conventional](assets/diagrams/full_conventional-labeled.svg){ .tc-detail-fig }
@@ -29,7 +29,7 @@ The whole toolhead travels. Each tool carries its own extruder motor, gears, fan
 
 </details>
 
-<details class="tc-details" id="type-partial_conventional" markdown>
+<details class="note" id="type-partial_conventional" markdown>
 <summary>Partial conventional</summary>
 
 ![Partial conventional](assets/diagrams/partial_conventional-labeled.svg){ .tc-detail-fig }
@@ -54,7 +54,7 @@ The tool keeps the extruder and the hot end but leaves the part cooling fan on t
 
 ## Filament path changers
 
-<details class="tc-details" id="type-gear_swapping" markdown>
+<details class="note" id="type-gear_swapping" markdown>
 <summary>Gear swapping</summary>
 
 ![Gear swapping](assets/diagrams/gear_swapping-labeled.svg){ .tc-detail-fig }
@@ -77,7 +77,7 @@ The extruder motor stays on the carriage and the drive gears travel with the too
 
 </details>
 
-<details class="tc-details" id="type-hotend_fan_swapping" markdown>
+<details class="note" id="type-hotend_fan_swapping" markdown>
 <summary>Hotend fan swapping</summary>
 
 ![Hotend fan swapping](assets/diagrams/hotend_fan_swapping-labeled.svg){ .tc-detail-fig }
@@ -100,7 +100,7 @@ The hot end travels with its own heat break fan. The extruder and part cooling s
 
 </details>
 
-<details class="tc-details" id="type-inductive_pogo" markdown>
+<details class="note" id="type-inductive_pogo" markdown>
 <summary>Inductive / pogo changers</summary>
 
 ![Inductive / pogo changers](assets/diagrams/inductive_pogo-labeled.svg){ .tc-detail-fig }
@@ -123,7 +123,7 @@ Only the heat break and nozzle travel. The heater and thermistor cross the joint
 
 </details>
 
-<details class="tc-details" id="type-wired" markdown>
+<details class="note" id="type-wired" markdown>
 <summary>Wired</summary>
 
 ![Wired](assets/diagrams/wired-labeled.svg){ .tc-detail-fig }
@@ -148,7 +148,7 @@ The same split as inductive/pogo, but the heater and thermistor stay on a wire b
 
 ## Hotend changers
 
-<details class="tc-details" id="type-ams_assisted_hotend_changer" markdown>
+<details class="note" id="type-ams_assisted_hotend_changer" markdown>
 <summary>AMS-assisted hotend changers</summary>
 
 ![AMS-assisted hotend changers](assets/diagrams/ams_assisted_hotend_changer-labeled.svg){ .tc-detail-fig }
@@ -171,7 +171,7 @@ A hot end changer paired with an automatic material system. The AMS handles fila
 
 </details>
 
-<details class="tc-details" id="type-ams_assisted_nozzle_changer" markdown>
+<details class="note" id="type-ams_assisted_nozzle_changer" markdown>
 <summary>AMS-assisted nozzle changers</summary>
 
 ![AMS-assisted nozzle changers](assets/diagrams/ams_assisted_nozzle_changer-labeled.svg){ .tc-detail-fig }

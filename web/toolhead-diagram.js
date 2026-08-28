@@ -354,9 +354,24 @@ export function renderDiagram(data, opts = {}) {
   const crossKeys = new Set(info.crossings.map((e) => `${e.from}>${e.to}`));
 
   const legendBox = legend ? legendRect(shown) : null;
+
+  // The boundary is padded 40 out from the blocks, so framing on the blocks
+  // alone leaves it all but touching the edge. Trace it first and frame on it.
+  const loops =
+    boundary && (swaps.length || partial.length)
+      ? traceOutline(
+          toolRegionRects(data, { swaps, partial, include, edgeOverrides, pad: opts.pad ?? 40 }),
+          0
+        )
+      : [];
+
   const vb =
     opts.viewBox ||
-    fitViewBox(legendBox ? [...shown, legendBox] : shown, 48, edges.flatMap((e) => e.route));
+    fitViewBox(
+      legendBox ? [...shown, legendBox] : shown,
+      48,
+      edges.flatMap((e) => e.route).concat(loops.flat())
+    );
   const out = [];
 
   out.push(
@@ -435,11 +450,7 @@ export function renderDiagram(data, opts = {}) {
   }
 
   // Tool boundary, derived from the swap set.
-  if (boundary && (swaps.length || partial.length)) {
-    const loops = traceOutline(
-      toolRegionRects(data, { swaps, partial, include, edgeOverrides, pad: opts.pad ?? 40 }),
-      0
-    );
+  if (loops.length) {
     out.push(
       `<path class="td-boundary" d="${outlinePath(loops)}" fill="none" ` +
         `stroke="${t.boundary}" stroke-width="${round(t.connectorWidth * strokeScale)}" ` +

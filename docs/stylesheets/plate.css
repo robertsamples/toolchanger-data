@@ -135,42 +135,9 @@
 
 /* ---------- type sections ---------- */
 
-.md-typeset details.tc-details {
-  border: 1px solid var(--tc-rule-soft);
-  border-radius: 3px;
-  box-shadow: none;
-  padding: 0;
-  margin: .4rem 0;
-  font-size: .68rem;
-}
-.md-typeset details.tc-details > summary {
-  padding: .45rem .7rem;
-  font-size: .72rem;
-  font-weight: 700;
-  background: none;
-  border: 0;
-  cursor: pointer;
-  list-style: none;
-}
-/* Material styles a bare <details> as an admonition — replace its icon and
-   chevron with a plain disclosure marker. */
-.md-typeset details.tc-details > summary::after { content: none; }
-.md-typeset details.tc-details > summary::-webkit-details-marker { display: none; }
-.md-typeset details.tc-details > summary::before {
-  content: "▸";
-  position: static;
-  display: inline-block;
-  width: 1em;
-  height: auto;
-  background: none;
-  color: var(--tc-muted);
-  font-size: .85em;
-}
-.md-typeset details.tc-details[open] > summary::before { content: "▾"; }
-.md-typeset details.tc-details > summary:hover { background: var(--md-default-fg-color--lightest); }
-.md-typeset details.tc-details[open] > summary { border-bottom: 1px solid var(--tc-rule-soft); }
-.md-typeset details.tc-details > *:not(summary) { margin-left: .7rem; margin-right: .7rem; }
-.md-typeset details.tc-details > *:last-child { margin-bottom: .7rem; }
+/* The sections are Material's own collapsible admonitions — <details class="note">
+   is exactly what `??? note` produces, written out so each one can carry the id
+   the plate links to. Nothing here restyles them; only the figure float is ours. */
 
 .md-typeset .tc-detail-fig {
   float: right;
