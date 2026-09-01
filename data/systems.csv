@@ -1,23 +1,65 @@
-name,type,origin,max tools,change time (s),tool cost (USD),url,notes
-Prusa XL,full_conventional,commercial-printer,,,,,
-E3D toolchanger,full_conventional,commercial-toolhead,,,,,
-Stealthchanger,full_conventional,foss,,,,,
-Tapchanger,full_conventional,foss,,,,,
-Madmax,full_conventional,foss,,,,,
-Daksh,full_conventional,foss,,,,,
-Lineux,full_conventional,foss,,,,,
-U1,partial_conventional,commercial-printer,,,,,
-C5 series,gear_swapping,commercial-printer,,,,,
-M1D,hotend_fan_swapping,commercial-printer,,,,,
-A4T-C,hotend_fan_swapping,foss,,,,,
-MedusaHC,hotend_fan_swapping,foss,,,,,
-Ronin,hotend_fan_swapping,foss,,,,,
-MX series,inductive_pogo,commercial-printer,,,,,
-INDX,inductive_pogo,commercial-toolhead,,,,,
-Quindecum,inductive_pogo,foss,,,,,
-Klitek,wired,commercial-printer,,,,,
-CXchanger,wired,foss,,,,,
-YUDX,wired,foss,,,,,
-Vortek,ams_assisted_hotend_changer,commercial-printer,,,,,
-Atomform,ams_assisted_nozzle_changer,commercial-printer,,,,,
-Swapper3d,ams_assisted_nozzle_changer,commercial-toolhead,,,,,
+name,type,origin,max tools,change time (s),total cost (USD),url,notes
+Prusa XL,full_conventional,commercial-printer,6,14,3899,https://youtu.be/oO8XnWPwyjA?t=770,
+E3D toolchanger,full_conventional,commercial-printer,5,30,,https://www.youtube.com/watch?v=C7wYfaHT1g0,
+Stealth changer (DraftShift),full_conventional,foss,8,60,1909,https://github.com/DraftShift/StealthChanger,
+TapChanger,full_conventional,foss,8,20,1775,https://github.com/viesturz/tapchanger,
+Madmax toolchanger,full_conventional,foss,8,20,,https://github.com/zruncho3d/madmax,
+Daksh tool changer,full_conventional,foss,8,20,,https://github.com/ankurv2k6/daksh-toolchanger-v2,
+Lineux toolchanger,full_conventional,foss,8,20,,https://github.com/Bikin-Creative/Lineux-Toolchanger,unrelated to Lineux HotSwap (hotend_fan_swapping)
+Snapmaker U1,partial_conventional,commercial-printer,4,14,849,https://youtu.be/NhL_kTRVEIo?t=186,
+Flashforge Creator 5 (C5),gear_swapping,commercial-printer,4,14,699,https://youtu.be/WA6FuC-_R_M?si=S3VlhMhHqDrbSSmb,
+Sovol M1D,hotend_fan_swapping,commercial-printer,7,21,1199,https://www.sovol3d.com/pages/sovol-m1d-landing-page,independent Z
+A4T-C Hotend Changer,hotend_fan_swapping,foss,8,15,,https://discord.com/channels/460117602945990666/1522282695516885204,Voron Discord dev thread
+MedusaHC,hotend_fan_swapping,foss,10,19,,https://www.youtube.com/watch?v=hpV5Z1TnGdY,"by Sergei Irbis, github.com/Irbis3D/MedusaHC"
+Jakob's Ronin,wired,foss,?,15,,https://github.com/jaak0b/Ronin/tree/main,design not finalized - do not print/order parts yet
+Infimech MX Nozzle Changer,inductive,commercial-printer,8,20,,https://www.kickstarter.com/projects/infimech-mx-series/infimech-mx-3d-printer-8x-more-efficiency-8x-less-waste,
+Bondtech INDX,inductive,commercial-toolhead,10,21,,https://youtu.be/BCmGoP0uNlM,
+Quindec (Srin),inductive,foss,20,20,,https://youtu.be/941lrKT-fIY,"aka Quindecum, github.com/srinn/quindec-toolchanger"
+Creality KliTek,wired,commercial-printer,4,20,,https://x.com/ZombieHedgehog_/status/2058981825842720972?s=20,
+CxChanger,wired,foss,5,15,,https://github.com/cx330-TXY/CxChanger/tree/main,
+YUDX,wired,foss,10,15,,https://github.com/dumplinglab/YUDX-tool-changer,also see https://www.youtube.com/watch?v=Vm4MIgcpSWI
+H2C Vortek,ams_assisted_hotend_changer,commercial-printer,7,42,,https://youtube.com/shorts/zYmmw5OM6OU?si=rIB2sr1aIYqg3bvJ,
+AtomForm Palette 300,ams_assisted_nozzle_changer,commercial-printer,36,12,,https://atomform.tech/,by MOVA; 12 nozzles native / up to 36 colours with 6x RFD-6 AMS
+Swapper3d nozzle changer (Bigbrains3d),ams_assisted_nozzle_changer,commercial-toolhead,20,90,,https://www.youtube.com/watch?v=AdUUCHGjXkE,
+Prusa CoreOne INDX,inductive,commercial-printer,8,21,1949,https://youtube.com/shorts/3wsolb-Yqn8?si=t8wk4CetKj_t3Ci_,
+Axiloop MC8,wired,commercial-printer,8,20,,https://www.reddit.com/r/Axiloop/,mechanism unconfirmed
+EMNA E3NG-Toolchanger,hotend_fan_swapping,foss,6,15,,https://github.com/emna2881/E3NG-Toolchanger,for Ender-3 NG (RH3D)
+Lineux HotSwap,hotend_fan_swapping,foss,2,15,,https://www.youtube.com/watch?v=sOk1mblA44g,unrelated to Lineux toolchanger (full_conventional); not released; by 3dfiymylife
+BBox Toolchanger,wired,foss,8,12,,https://youtube.com/shorts/VmdlazyVDtU?si=j0SshEQh-DE4e7WA,
+Nozzle changer (engineers grow),wired,foss,10,20,,https://youtu.be/wjNQ7pUC6R8?t=1059,
+Nozzle changer (Matti / @mvaar),wired,foss,10,20,,https://youtu.be/SmmD324tIl0?t=605,
+Snapmaker U1+Sidecar AMS,partial_conventional,commercial-printer,16,90,,https://www.youtube.com/watch?v=7EH3QAjspt0&t=1s,AMS-extended colour count
+Misschanger Stealthchanger,full_conventional,foss,8,40,,https://www.youtube.com/watch?v=eGr8pHkFFNs,
+Anycubic Ace Gen2,filament_path_changer,commercial-printer,4,90,,https://youtu.be/9mrCouzZ8sw?t=1004,
+Creality K2plus CFS,filament_path_changer,commercial-printer,16,90,,https://youtu.be/udhl2mzfLbc?t=872,
+H2D AMS2 pro,filament_path_changer,commercial-toolhead,28,90,,https://youtu.be/TsuQAGejoNQ?t=437,
+Box Turtle,filament_path_changer,foss,4,75,,https://www.youtube.com/watch?v=AP_XsKV063s,
+Klipper OpenAMS - BL AMS electronics upgrade,filament_path_changer,foss,4,90,,https://openams.si-forge.com,
+PICO MMU,filament_path_changer,foss,4,70,,https://github.com/lhndo/LH-Stinger/wiki/Pico-MMU,
+CoPrint Chroma AMS Lite Type Addon,filament_path_changer,commercial-toolhead,16,60,,https://youtu.be/oh7ko-Ip7kA?t=579,
+X1C AMS,filament_path_changer,commercial-toolhead,16,90,,https://bambulab.com/en-us/x1,
+A1 AMS Lite - off bed flushing,filament_path_changer,commercial-toolhead,4,90,,https://wiki.bambulab.com/en/software/bambu-studio/reduce-wasting-during-filament-change,
+Prusa MMU3,filament_path_changer,commercial-toolhead,5,70,,https://youtu.be/MAZfP1-_0IA?t=1998,
+3d Chameleon AMS Lite type add-on,filament_path_changer,commercial-toolhead,4,60,,https://youtu.be/vTUc3EFw0e0?t=62,
+ERCF,filament_path_changer,foss,16,80,,https://github.com/Enraged-Rabbit-Community/ERCF_v2,
+Filament Star rotating toolchanger,filament_path_changer,commercial-toolhead,4,60,,https://youtu.be/xXM4liUgNNU?t=228,
+Ryper MMU2 Clone,filament_path_changer,foss,10,70,,https://www.printables.com/model/225419-ryper-mmu21s-10-colors-v2,
+Mosaic Palette 2/3,filament_path_changer,commercial-toolhead,8,90,,https://youtu.be/gd3FGrIDYn8?si=--r7lmnqsln4RgLM,
+Prusa MMU2,filament_path_changer,commercial-toolhead,5,70,,https://help.prusa3d.com/guide/1-introduction_400300,
+Prusa MMU1,filament_path_changer,commercial-toolhead,4,70,,https://www.youtube.com/watch?v=KpcH74DXyy0,
+CoPrint Quadro,idex_multihead,commercial-printer,4,12,,https://youtu.be/MEKAYzd3NvU?t=139,
+Formbot XPlorer IQEX,idex_multihead,foss,4,60,,https://youtu.be/Ifi2CkAXc60?si=b-YwczsMYGUQx11M,
+Lightmake Linear Motor IQEX,idex_multihead,commercial-printer,4,10,,https://lightmake.tech,independent Z
+Anabolic Mechanics Parallel IDEX,idex_multihead,commercial-printer,2,10,,https://www.instagram.com/reel/DO1TvKOiKW0/,
+Roetz-End filament turning,idex_multihead,foss,15,0.5,,https://www.youtube.com/watch?v=6pM_ltAM7_s&t=2s,
+Ratrig Toolshift IDEX - without priming,idex_multihead,commercial-printer,2,10,,https://youtu.be/0P5IEw5bAog?t=87,
+Nathan Builds Robots 4 headed rotary printer,idex_multihead,foss,15,10,,https://youtu.be/9OBDJbKhOGo?si=Vf_JsdoYnZ72CQ1y,
+Duet Kraken,idex_multihead,foss,4,60,,http://blog.think3dprint3d.com/2014/01/4-extruder-printing-duet-kraken.html,
+TriColourMendel,idex_multihead,foss,3,60,,https://reprapltd.com/reprappro/documentation/mendel-tricolour/index.html,
+Heygears G1,colour_deposition,commercial-printer,Infinite,,,https://www.youtube.com/watch?v=xbLEwve3cPg,130mm max height
+EufyMake E1 UV printer,colour_deposition,commercial-printer,Infinite,,,https://www.youtube.com/watch?v=vRc8eiSBgzA,5mm max height
+Longer ePrint UV printer,colour_deposition,commercial-printer,Infinite,,,https://www.kickstarter.com/projects/longer3d/longer-eprint-the-worlds-1st-dual-head-personal-uv-printer,60mm max height
+Flashforge CJ270 Full Colour Resin Printer,colour_deposition,commercial-printer,Infinite,,,https://www.voxelmatters.com/flashforges-new-cj270-could-make-or-break-full-color-3d-printing/,7 - 2.5mm/hour print rate
+PolyDye - inkjet colouring,colour_deposition,commercial-toolhead,Infinite,,,https://youtu.be/J1wz8S9rTI8?t=62,
+Virtual Colours Full Spectrum,virtual_colour,foss,Any,0,,https://youtu.be/Mjdwu-Ga_rA?si=YBDNWqfK8iYwxVa7,"software colour-mixing technique, no hardware swap"
+Virtual Colours Hueforge etc,virtual_colour,foss,Any,0,,https://github.com/ukdavewood/p2pp/tree/colour,
