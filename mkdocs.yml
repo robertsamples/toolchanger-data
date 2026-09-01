@@ -45,4 +45,6 @@ extra_javascript:
   - javascripts/jump.js
 
 nav:
-  - Classes and types: index.md
+  - Toolchanger Classes: index.md
+  - Toolchanger Subtypes: subtypes.md
+  - IP Landscape: ip-landscape.md
