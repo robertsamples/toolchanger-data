@@ -4,8 +4,6 @@ A reference site for 3D printer toolchanger designs. Eight types in three
 classes, each shown as a block diagram of the toolhead with a dashed outline
 around the part that travels with the tool.
 
-The taxonomy and the diagrams come from a figure by **baconmilkshake**.
-
 ## Build and serve
 
 Needs Node and Python.
