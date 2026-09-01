@@ -110,11 +110,17 @@
   gap: .55rem;
   padding: .5rem .6rem;
   color: inherit;
-  text-decoration: none;
   min-width: 0;
 }
+
+/* The whole cell is a link, and Zensical underlines every link in .md-typeset —
+   a selector that outranks a bare .tc-cell, hence the extra specificity here.
+   Hover is shown by the cell tinting, not by a rule under the text. */
+.md-typeset a.tc-cell,
+.md-typeset a.tc-cell:hover,
+.md-typeset a.tc-cell:focus { text-decoration: none; }
+
 .tc-cell:hover { background: var(--md-default-fg-color--lightest); }
-.tc-cell:hover .tc-cell-name { text-decoration: underline; }
 .tc-cell-fig { flex: 0 0 170px; max-width: 170px; }
 .tc-cell-txt { flex: 1 1 0; min-width: 0; }
 .tc-cell-name {

@@ -2,7 +2,7 @@
 
 | Name | Origin | Max tools | Change time (s) | Total cost (USD) | Url | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
-| <span class="tc-org-commercial-printer">Infimech MX Nozzle Changer</span> | Commercial printer | 8 | 20 |  | [link](https://www.kickstarter.com/projects/infimech-mx-series/infimech-mx-3d-printer-8x-more-efficiency-8x-less-waste) |  |
+| <span class="tc-org-commercial-printer">Infimech MX</span> | Commercial printer | 8 | 20 |  | [link](https://www.kickstarter.com/projects/infimech-mx-series/infimech-mx-3d-printer-8x-more-efficiency-8x-less-waste) |  |
 | <span class="tc-org-commercial-toolhead">Bondtech INDX</span> | Commercial toolhead | 10 | 21 |  | [link](https://youtu.be/BCmGoP0uNlM) |  |
 | <span class="tc-org-foss">Quindec (Srin)</span> | FOSS design | 20 | 20 |  | [link](https://youtu.be/941lrKT-fIY) | aka Quindecum, github.com/srinn/quindec-toolchanger |
 | <span class="tc-org-commercial-printer">Prusa CoreOne INDX</span> | Commercial printer | 8 | 21 | 1949 | [link](https://youtube.com/shorts/3wsolb-Yqn8?si=t8wk4CetKj_t3Ci_) |  |

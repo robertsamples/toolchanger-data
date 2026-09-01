@@ -4,9 +4,9 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | <span class="tc-org-commercial-printer">Prusa XL</span> | Commercial printer | 6 | 14 | 3899 | [link](https://youtu.be/oO8XnWPwyjA?t=770) |  |
 | <span class="tc-org-commercial-printer">E3D toolchanger</span> | Commercial printer | 5 | 30 |  | [link](https://www.youtube.com/watch?v=C7wYfaHT1g0) |  |
-| <span class="tc-org-foss">Stealth changer (DraftShift)</span> | FOSS design | 8 | 60 | 1909 | [link](https://github.com/DraftShift/StealthChanger) |  |
+| <span class="tc-org-foss">Stealthchanger (DraftShift)</span> | FOSS design | 8 | 60 | 1909 | [link](https://github.com/DraftShift/StealthChanger) |  |
 | <span class="tc-org-foss">TapChanger</span> | FOSS design | 8 | 20 | 1775 | [link](https://github.com/viesturz/tapchanger) |  |
-| <span class="tc-org-foss">Madmax toolchanger</span> | FOSS design | 8 | 20 |  | [link](https://github.com/zruncho3d/madmax) |  |
-| <span class="tc-org-foss">Daksh tool changer</span> | FOSS design | 8 | 20 |  | [link](https://github.com/ankurv2k6/daksh-toolchanger-v2) |  |
-| <span class="tc-org-foss">Lineux toolchanger</span> | FOSS design | 8 | 20 |  | [link](https://github.com/Bikin-Creative/Lineux-Toolchanger) | unrelated to Lineux HotSwap (hotend_fan_swapping) |
-| <span class="tc-org-foss">Misschanger Stealthchanger</span> | FOSS design | 8 | 40 |  | [link](https://www.youtube.com/watch?v=eGr8pHkFFNs) |  |
+| <span class="tc-org-foss">Madmax</span> | FOSS design | 8 | 20 |  | [link](https://github.com/zruncho3d/madmax) |  |
+| <span class="tc-org-foss">Daksh</span> | FOSS design | 8 | 20 |  | [link](https://github.com/ankurv2k6/daksh-toolchanger-v2) |  |
+| <span class="tc-org-foss">Lineux</span> | FOSS design | 8 | 20 |  | [link](https://github.com/Bikin-Creative/Lineux-Toolchanger) | unrelated to Lineux HotSwap |
+| <span class="tc-org-foss">Misschanger</span> | FOSS design | 8 | 40 |  | [link](https://www.youtube.com/watch?v=eGr8pHkFFNs) |  |

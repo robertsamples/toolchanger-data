@@ -89,7 +89,7 @@ for (const r of systems.rows) {
 }
 for (const [type, names] of Object.entries(unknown)) {
   warn(`systems.csv: type "${type}" is not in the taxonomy — ${names.length} row(s) `
-     + `appear under All systems but in no class band: ${names.slice(0, 3).join(', ')}`
+     + `listed under Other approaches, not in any class band: ${names.slice(0, 3).join(', ')}`
      + (names.length > 3 ? `, +${names.length - 3} more` : ''));
 }
 
@@ -195,11 +195,26 @@ for (const t of data.types) {
   writeFileSync(join(ROOT, 'snippets', `type-${t.id}.md`), lines.join('\n'), 'utf8');
 }
 
-writeFileSync(
-  join(ROOT, 'snippets', 'systems-all.md'),
-  [banner, '', ...table(systems.rows), ''].join('\n'),
-  'utf8'
-);
+/**
+ * The full list is split three ways.
+ *
+ *   toolchangers  rows whose type is one of the eight in the taxonomy
+ *   ams           AMS and MMU units, which multiplex filament into one hot end
+ *   other         everything else — IDEX, colour deposition, virtual colour
+ *
+ * Only the first table holds machines the block diagram on this site describes.
+ */
+const AMS_TYPES = new Set(['filament_path_changer']);
+const isToolchanger = (r) => data.types.some((t) => t.id === r.type);
+const isAms = (r) => AMS_TYPES.has(r.type);
+
+for (const [name, rows] of [
+  ['systems-toolchangers.md', systems.rows.filter(isToolchanger)],
+  ['systems-ams.md', systems.rows.filter(isAms)],
+  ['systems-other.md', systems.rows.filter((r) => !isToolchanger(r) && !isAms(r))],
+]) {
+  writeFileSync(join(ROOT, 'snippets', name), [banner, '', ...table(rows), ''].join('\n'), 'utf8');
+}
 
 /** One HTML block with no blank lines — python-markdown passes it through as-is. */
 function plate() {
@@ -240,7 +255,7 @@ writeFileSync(join(ROOT, 'snippets', 'plate.html'), `${banner}\n${plate()}\n`, '
 /* ---------------------------------------------------------------- */
 
 console.log(`diagrams  ${data.types.length * 2 + 1} svg`);
-console.log(`snippets  plate.html, systems-all.md, ${data.types.length} type tables`);
+console.log(`snippets  plate.html, 3 system tables, ${data.types.length} type tables`);
 console.log(`systems   ${systems.rows.length} rows; columns shown: ${columns.join(', ')}`);
 console.log(`plate     included by ${includers.join(', ') || '(nobody)'}, assets prefixed "${ASSET_PREFIX}"`);
 for (const w of warnings) console.warn(`warning: ${w}`);

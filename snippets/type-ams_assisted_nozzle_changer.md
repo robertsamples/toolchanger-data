@@ -3,4 +3,4 @@
 | Name | Origin | Max tools | Change time (s) | Total cost (USD) | Url | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | <span class="tc-org-commercial-printer">AtomForm Palette 300</span> | Commercial printer | 36 | 12 |  | [link](https://atomform.tech/) | by MOVA; 12 nozzles native / up to 36 colours with 6x RFD-6 AMS |
-| <span class="tc-org-commercial-toolhead">Swapper3d nozzle changer (Bigbrains3d)</span> | Commercial toolhead | 20 | 90 |  | [link](https://www.youtube.com/watch?v=AdUUCHGjXkE) |  |
+| <span class="tc-org-commercial-toolhead">Swapper3d (Bigbrain3d)</span> | Commercial toolhead | 20 | 90 |  | [link](https://www.youtube.com/watch?v=AdUUCHGjXkE) |  |
