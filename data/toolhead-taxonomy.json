@@ -116,7 +116,8 @@
       "class": "filament_path",
       "swaps": ["heatsink","nozzle"],
       "swapsEdges": ["filament_in>gears", "gears>heatsink"],
-      "toolInterface": "contactless-or-pogo"
+      "toolInterface": "contactless-or-pogo",
+      "aliases": ["inductive"]
     },
     {
       "id": "wired",

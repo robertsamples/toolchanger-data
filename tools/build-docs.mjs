@@ -13,7 +13,7 @@
  *   node tools/build-docs.mjs
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderDiagram } from '../web/toolhead-diagram.js';
@@ -69,22 +69,54 @@ const columns = systems.columns.filter(
   (c) => c !== 'type' && systems.rows.some((r) => r[c])
 );
 
+/**
+ * The CSV is maintained separately and does not always use the taxonomy's own
+ * ids, so a type may declare the other spellings it answers to. Resolve those
+ * up front, then report anything still unmatched grouped by type rather than
+ * one line per row.
+ */
+const byAlias = {};
+for (const t of data.types) {
+  byAlias[t.id] = t.id;
+  for (const a of t.aliases || []) byAlias[a] = t.id;
+}
+
+const unknown = {};
 for (const r of systems.rows) {
-  if (!data.types.some((t) => t.id === r.type)) {
-    warn(`systems.csv: "${r.name}" has type "${r.type}", which is not in the taxonomy`);
-  }
+  const resolved = byAlias[r.type];
+  if (resolved) r.type = resolved;
+  else (unknown[r.type] ||= []).push(r.name);
+}
+for (const [type, names] of Object.entries(unknown)) {
+  warn(`systems.csv: type "${type}" is not in the taxonomy — ${names.length} row(s) `
+     + `appear under All systems but in no class band: ${names.slice(0, 3).join(', ')}`
+     + (names.length > 3 ? `, +${names.length - 3} more` : ''));
 }
 
 /* ---------------------------------------------------------------- *
  * Sanity check against the page
  * ---------------------------------------------------------------- */
 
-const pageText = read('docs', 'index.md');
+const pageText = read('docs', 'subtypes.md');
 for (const t of data.types) {
   if (!pageText.includes(`id="type-${t.id}"`)) {
-    warn(`docs/index.md has no section for type "${t.id}"`);
+    warn(`docs/subtypes.md has no section for type "${t.id}"`);
   }
 }
+
+/**
+ * The plate is raw HTML, and MkDocs only rewrites relative paths in markdown
+ * syntax — so its <img src> has to be correct as written. Work out how deep the
+ * page that includes it sits, and prefix accordingly. With use_directory_urls,
+ * any page but index.md is served one directory down.
+ */
+const includers = readdirSync(join(ROOT, 'docs'))
+  .filter((f) => f.endsWith('.md') && read('docs', f).includes('--8<-- "plate.html"'));
+
+if (includers.length !== 1) {
+  warn(`plate.html is included by ${includers.length} pages (${includers.join(', ') || 'none'}); asset paths assume one`);
+}
+const ASSET_PREFIX = includers[0] === 'index.md' || !includers.length ? '' : '../';
 
 /* ---------------------------------------------------------------- *
  * Diagrams
@@ -96,7 +128,7 @@ mkdirSync(join(ROOT, 'snippets'), { recursive: true });
 function writeSvg(name, svg) {
   const doc = `<?xml version="1.0" encoding="UTF-8"?>\n${svg.replace('<svg ', '<svg version="1.1" ')}\n`;
   writeFileSync(join(ROOT, 'docs', 'assets', 'diagrams', name), doc, 'utf8');
-  return `assets/diagrams/${name}`;
+  return `${ASSET_PREFIX}assets/diagrams/${name}`;
 }
 
 // The source figure uses one absolute line weight throughout. That reads right
@@ -118,6 +150,8 @@ for (const t of data.types) {
     edgeOverrides: t.edgeOverrides || [],
   };
   figs[t.id] = {
+    // only `panel` is used from the raw-HTML plate; the labelled figures are
+    // referenced with markdown syntax, which MkDocs rewrites for us
     panel: writeSvg(`${t.id}.svg`, renderDiagram(data, { ...shared, labels: false })),
     full: writeSvg(`${t.id}-labeled.svg`, renderDiagram(data, {
       ...shared, labels: true, strokeScale: 0.6,
@@ -209,4 +243,5 @@ writeFileSync(join(ROOT, 'snippets', 'plate.html'), `${banner}\n${plate()}\n`, '
 console.log(`diagrams  ${data.types.length * 2 + 1} svg`);
 console.log(`snippets  plate.html, systems-all.md, ${data.types.length} type tables`);
 console.log(`systems   ${systems.rows.length} rows; columns shown: ${columns.join(', ')}`);
+console.log(`plate     included by ${includers.join(', ') || '(nobody)'}, assets prefixed "${ASSET_PREFIX}"`);
 for (const w of warnings) console.warn(`warning: ${w}`);

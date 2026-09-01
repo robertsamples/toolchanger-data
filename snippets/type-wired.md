@@ -4,8 +4,13 @@
 
     Same swap set as inductive/pogo. The difference is how the heater/thermistor circuit crosses the boundary, not which blocks travel.
 
-| Name | Origin |
-| --- | --- |
-| <span class="tc-org-commercial-printer">Klitek</span> | Commercial printer |
-| <span class="tc-org-foss">CXchanger</span> | FOSS design |
-| <span class="tc-org-foss">YUDX</span> | FOSS design |
+| Name | Origin | Max tools | Change time (s) | Total cost (USD) | Url | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| <span class="tc-org-foss">Jakob's Ronin</span> | FOSS design | ? | 15 |  | [link](https://github.com/jaak0b/Ronin/tree/main) | design not finalized - do not print/order parts yet |
+| <span class="tc-org-commercial-printer">Creality KliTek</span> | Commercial printer | 4 | 20 |  | [link](https://x.com/ZombieHedgehog_/status/2058981825842720972?s=20) |  |
+| <span class="tc-org-foss">CxChanger</span> | FOSS design | 5 | 15 |  | [link](https://github.com/cx330-TXY/CxChanger/tree/main) |  |
+| <span class="tc-org-foss">YUDX</span> | FOSS design | 10 | 15 |  | [link](https://github.com/dumplinglab/YUDX-tool-changer) | also see https://www.youtube.com/watch?v=Vm4MIgcpSWI |
+| <span class="tc-org-commercial-printer">Axiloop MC8</span> | Commercial printer | 8 | 20 |  | [link](https://www.reddit.com/r/Axiloop/) | mechanism unconfirmed |
+| <span class="tc-org-foss">BBox Toolchanger</span> | FOSS design | 8 | 12 |  | [link](https://youtube.com/shorts/VmdlazyVDtU?si=j0SshEQh-DE4e7WA) |  |
+| <span class="tc-org-foss">Nozzle changer (engineers grow)</span> | FOSS design | 10 | 20 |  | [link](https://youtu.be/wjNQ7pUC6R8?t=1059) |  |
+| <span class="tc-org-foss">Nozzle changer (Matti / @mvaar)</span> | FOSS design | 10 | 20 |  | [link](https://youtu.be/SmmD324tIl0?t=605) |  |

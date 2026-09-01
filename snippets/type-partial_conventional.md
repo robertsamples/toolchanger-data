@@ -4,6 +4,7 @@
 
     The dashed boundary cuts through the toolhead board rather than around it. This is because many systems have split electronics packages.
 
-| Name | Origin |
-| --- | --- |
-| <span class="tc-org-commercial-printer">U1</span> | Commercial printer |
+| Name | Origin | Max tools | Change time (s) | Total cost (USD) | Url | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| <span class="tc-org-commercial-printer">Snapmaker U1</span> | Commercial printer | 4 | 14 | 849 | [link](https://youtu.be/NhL_kTRVEIo?t=186) |  |
+| <span class="tc-org-commercial-printer">Snapmaker U1+Sidecar AMS</span> | Commercial printer | 16 | 90 |  | [link](https://www.youtube.com/watch?v=7EH3QAjspt0&t=1s) | AMS-extended colour count |
