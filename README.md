@@ -11,14 +11,18 @@ Needs Node and Python.
 ```sh
 node tools/build-docs.mjs        # regenerate diagrams and snippets
 pip install -r requirements.txt
-mkdocs serve                     # http://127.0.0.1:8000
+zensical serve                   # http://127.0.0.1:8000
 ```
 
-Zensical reads the same `mkdocs.yml`: `pip install zensical` then
-`zensical serve`.
+The site is built with [Zensical](https://zensical.org). It reads `mkdocs.yml`,
+so `mkdocs serve` also works if you would rather install `mkdocs-material`.
+
+Zensical's dark theme is close to black. `docs/stylesheets/plate.css` overrides
+the background tokens back to the lighter values Material uses; that block is a
+no-op under MkDocs.
 
 The first step only matters after editing `data/`. Its output is committed, so a
-fresh clone can go straight to `mkdocs serve`.
+fresh clone can go straight to serving.
 
 ## Editing
 

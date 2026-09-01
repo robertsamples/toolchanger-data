@@ -3,6 +3,10 @@ site_description: A reference for 3D printer toolchanger topologies
 
 site_url: https://toolchangers.baconmilkshake.com/
 
+# puts the repo link and icon in the header
+repo_url: https://github.com/robertsamples/toolchanger-data
+repo_name: robertsamples/toolchanger-data
+
 docs_dir: docs
 site_dir: site
 
@@ -37,6 +41,12 @@ markdown_extensions:
   - pymdownx.snippets:
       base_path: [snippets]
       check_paths: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/robertsamples/toolchanger-data
+      name: Source on GitHub
 
 extra_css:
   - stylesheets/plate.css

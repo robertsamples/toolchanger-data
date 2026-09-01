@@ -105,18 +105,17 @@ for (const t of data.types) {
 }
 
 /**
- * The plate is raw HTML, and MkDocs only rewrites relative paths in markdown
- * syntax — so its <img src> has to be correct as written. Work out how deep the
- * page that includes it sits, and prefix accordingly. With use_directory_urls,
- * any page but index.md is served one directory down.
+ * The plate is raw HTML. MkDocs leaves relative paths in raw HTML alone, while
+ * Zensical rewrites them — so a relative path cannot be correct for both. A
+ * site-root path is left as-is by both, which is why these are absolute.
  */
 const includers = readdirSync(join(ROOT, 'docs'))
   .filter((f) => f.endsWith('.md') && read('docs', f).includes('--8<-- "plate.html"'));
 
 if (includers.length !== 1) {
-  warn(`plate.html is included by ${includers.length} pages (${includers.join(', ') || 'none'}); asset paths assume one`);
+  warn(`plate.html is included by ${includers.length} pages (${includers.join(', ') || 'none'})`);
 }
-const ASSET_PREFIX = includers[0] === 'index.md' || !includers.length ? '' : '../';
+const ASSET_PREFIX = '/';
 
 /* ---------------------------------------------------------------- *
  * Diagrams

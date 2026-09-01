@@ -42,7 +42,7 @@ jobs:
             echo "::warning::generated files changed during the build — run 'node tools/build-docs.mjs' and commit the result"
           fi
 
-      - run: mkdocs build --strict
+      - run: zensical build
 
       # Only needed if the site is ever served from a branch instead of an
       # artifact, but it costs nothing and stops Jekyll eating underscore paths.

@@ -17,6 +17,19 @@
   --tc-name: #4f46e5;
 }
 [data-md-color-scheme="slate"] {
+  /* Zensical's "modern" variant drops the dark ground to 5% lightness, which is
+     near black. These are the values from its "classic" variant, i.e. what
+     Material for MkDocs uses, so the page keeps the lighter dark background
+     while the rest of the modern styling stays. Harmless under MkDocs, where
+     they are already the defaults. */
+  --md-default-bg-color:           hsla(var(--md-hue), 15%, 14%, 1);
+  --md-default-bg-color--light:    hsla(var(--md-hue), 15%, 14%, 0.54);
+  --md-default-bg-color--lighter:  hsla(var(--md-hue), 15%, 14%, 0.26);
+  --md-default-bg-color--lightest: hsla(var(--md-hue), 15%, 14%, 0.07);
+  --md-code-bg-color:              hsla(var(--md-hue), 15%, 18%, 1);
+  --md-code-bg-color--light:       hsla(var(--md-hue), 15%, 18%, 0.9);
+  --md-code-bg-color--lighter:     hsla(var(--md-hue), 15%, 18%, 0.54);
+
   /* Same major-to-minor gap as the light palette, pitched down so the rules
      do not glare against the dark ground. */
   --tc-rule: #98a3ae;
@@ -146,6 +159,9 @@
   margin: .5rem 0 .5rem .9rem;
 }
 .tc-clear { clear: both; height: 0; }
+
+/* the class overview figures on the front page */
+.md-typeset .tc-class-fig { display: block; max-width: 460px; margin: .8rem 0; }
 
 @media screen and (max-width: 44.9375em) {
   .md-typeset .tc-detail-fig { float: none; width: 100%; max-width: 100%; margin: .5rem 0; }
