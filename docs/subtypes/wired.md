@@ -15,7 +15,7 @@ The same split as inductive/pogo, but the heater and thermistor stay on a wire b
 
 - Without a dock fan preheating could cause heat creep.
 - More wiring, requires redundant mosfets and thermistor pins.
-- Gears have to open and reengage filament path every time.
+- Gears have to open and re-engage filament path every time.
 - More challenging for flexible materials than conventional toolchangers.
 - Extruder places variable load on kinematic coupling.
 

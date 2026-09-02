@@ -10,7 +10,7 @@ LGX gears.
   ![The two major drivetrain arrangements compared](../assets/drivetrain/drivetraincomparison.png){ width="700" }
   <figcaption>The two major arrangements, with the torque path in red. Left: one
   secondary is driven, and the drive only reaches the second extruder gear
-  because the two extruder gears mesh with each other, their teeth sit at the
+  because the two extruder gears mesh with each other; their teeth sit at the
   diameter that also engages the filament. Right: both secondaries are driven
   and synced to each other, and each turns its own extruder gear. The extruder
   gear teeth are inset inside the filament engagement diameter (pale rim), so
@@ -67,11 +67,11 @@ effective meshing diameter of the extruder gears varies with how far open the
 arms are, which can show up as chatter and extrusion artifacts.
 
 Nothing on the market at the time of writing meets that requirement, which is
-why YUDX has as many custom gears as it does. That may not continue to be the case,
+why YUDX has as many custom gears as it does. That may not continue to be the case:
 several designs now use gears of this kind, so they are likely to become easier
 to source.
 
-## Tool–carriage synced drivetrains
+## Tool-carriage synced drivetrains
 
 This atypical type is used in the Oosaka and in the unnamed toolchanger designed
 by Matti. The motor axis may be rotated 90 degrees from its usual orientation so
@@ -90,10 +90,10 @@ against it.</figcaption>
 </figure>
 
 These may look like gear swapping toolchangers. They are not counted as such
-here, because the tool–carriage interface is still the filament path, as it is
+here, because the tool-carriage interface is still the filament path, as it is
 in the wired, pogo/inductive and hotend fan swapping types. Gear swapping
 extruders such as the Flashforge Creator 5 do not split along the filament path
-at all; they split between the extruder gears and the motor. Tool–carriage
+at all; they split between the extruder gears and the motor. Tool-carriage
 synced drivetrains therefore face problems closer to those of the wired filament
 path changers, an extruder applying a decoupling force to the tool, than to
 those of the gear swapping type, which are custom gears and meshing during

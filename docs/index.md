@@ -7,7 +7,7 @@ parks a complete toolhead and one that swaps a bare nozzle both get called
 toolchangers, and both get compared on tool count and change time as though that
 made them comparable.
 
-What separates them is where the tool-toolhead/carraige split is drawn. Everything inside that split is
+What separates them is where the tool-toolhead/carriage split is drawn. Everything inside that split is
 duplicated on every tool, which sets the cost per tool and the moving mass.
 Everything crossing the cut is a joint that gets broken and remade at every
 change, which sets the failure modes. A full fat toolhead changer and a nozzle
@@ -46,7 +46,7 @@ just a toolhead that can be parked. It is also the most expensive (in theory) wa
 colour, and it puts the most mass on the coupling. Redundant electronics are needed for every tool. Splitting between
 [full](subtypes/full-conventional.md) and
 [partial](subtypes/partial-conventional.md) conventional comes down to
-whether the part cooling fan and all of toolhead electronics or just some travel too.
+whether the part cooling fan and all of the toolhead electronics or just some travel too.
 
 ### Filament path changers
 
@@ -74,7 +74,7 @@ end or nozzle is mounted, and the tool is only the hot zone.
 
 This is the cheapest thing to duplicate and adds the least mass, at the cost of
 depending on the material system to load and retract reliably, and of every
-change costing a purge. Mechanically the changing system also has to have more complex movements to swap a nozzle- this is readily apparant in Bambu Lab Vortek's multirail system and the Swapper3Ds rotating carrage and actuation arm. Where the cut falls between the
+change costing a purge. Mechanically the changing system also has to have more complex movements to swap a nozzle. This is readily apparent in Bambu Lab Vortek's multirail system and in the Swapper3D's rotating carriage and actuation arm. Where the cut falls between the
 [heat break](subtypes/ams-assisted-hotend-changer.md) and the
 [nozzle alone](subtypes/ams-assisted-nozzle-changer.md) decides whether
 tools can differ in anything but nozzle geometry.
@@ -88,7 +88,7 @@ deal with it.
 | Class | Goal | Compromise |
 | --- | --- | --- |
 | Conventional | Straightforward and safe. A tool is a toolhead, so nothing about extrusion has to be re-solved. | High demands on the kinematic mount, and difficult cost management once you want to fit a large number of tools. |
-| Filament path changers | Low cost, largely passive tools, which makes fitting a lot of them easy. | Very difficult to design a filament path and extrusion system that still still produces quality prints, is reliabile and supports flexible materials. |
+| Filament path changers | Low cost, largely passive tools, which makes fitting a lot of them easy. | Very difficult to design a filament path and extrusion system that still produces quality prints, is reliable and supports flexible materials. |
 | Hotend changers | A minimalist tool and the highest tool counts. | Very complex handling for tool storage and for the changing mechanism itself. |
 
 ## Credits

@@ -75,7 +75,7 @@ https://toolchangers.baconmilkshake.com/subtypes/hotend-fan-swapping/
 
 Travels with the tool: Hotend fan, Heatsink, Nozzle.
 
-The hot end travels with its own heat break fan. The extruder and part cooling stay behind, the extruder gears open for filament path changes.
+The hot end travels with its own heat break fan. The extruder and part cooling stay behind; the extruder gears open for filament path changes.
 
 Systems (6):
 - Sovol M1D — Commercial printer, up to 7 tools, 21 s change, $1199 — https://www.sovol3d.com/pages/sovol-m1d-landing-page
