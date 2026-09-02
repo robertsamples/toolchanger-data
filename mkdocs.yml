@@ -51,6 +51,13 @@ extra:
 extra_css:
   - stylesheets/plate.css
 
+# Cloudflare Web Analytics. The beacon reads its token from the data-cf-beacon
+# attribute, or — as here, since extra_javascript cannot set attributes — from
+# its own src query string. Cookieless, so no consent banner is needed.
+# The token is not a secret — it ships in the page either way.
+extra_javascript:
+  - https://static.cloudflareinsights.com/beacon.min.js?token=1ac6c12d700049bdb2666658e0a35779
+
 # One page per subtype, grouped by class. The plate on the front page links
 # straight into these, so the labels here should match data/toolhead-taxonomy.json.
 nav:

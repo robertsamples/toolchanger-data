@@ -33,6 +33,7 @@ fresh clone can go straight to serving.
 | Systems and their stats | `data/systems.csv` |
 | Which blocks a type swaps | `data/toolhead-taxonomy.json` |
 | Sidebar order and grouping | `mkdocs.yml` |
+| Crawler rules and content signals | `docs/robots.txt` |
 | Plate and table layout | `tools/build-docs.mjs` |
 
 The pages under `docs/` are ordinary markdown — edit them directly. The `--8<--`
@@ -54,6 +55,7 @@ Re-run `node tools/build-docs.mjs` after changing the CSV or the taxonomy. If
 Don't edit these; they are rebuilt from `data/`.
 
 - `docs/assets/diagrams/*.svg`
+- `docs/llms.txt`
 - `snippets/*`
 
 ## Deploying

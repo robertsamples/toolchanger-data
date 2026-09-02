@@ -1,0 +1,159 @@
+# Toolchanger data
+
+> A vocabulary for 3D printer toolchangers, and a table of the machines that use
+> each kind. Systems get sorted by where the tool/carriage split is drawn, because
+> that is what sets the cost per tool, the moving mass, and what has to be broken
+> and remade at every change. Three classes, eight subtypes.
+
+Site: https://toolchangers.baconmilkshake.com/  ·  Source: https://github.com/robertsamples/toolchanger-data
+Generated from data/ by tools/build-docs.mjs. Not hand-written.
+
+## How the classification works
+
+Every subtype is one block diagram of a toolhead with a dashed outline drawn round
+the part that leaves with a tool change. Blocks inside the outline exist once per
+tool; connections crossing it are broken and remade at every change. The blocks are:
+Filament, AMS, Mainboard, Toolhead board, Motor, Gears, Part cooling fan, Hotend fan, Heatsink, Nozzle.
+
+Each subtype page also carries pros and cons; those are not repeated here.
+
+Classes differ in where that outline falls:
+
+- Conventional toolchangers — Full conventional; Partial conventional
+- Filament path changers — Gear swapping path changers; Hotend fan swapping path changers; Inductive / pogo path changers; Wired path changers
+- Hotend changers — AMS-assisted hotend changers; AMS-assisted nozzle changers
+
+## Conventional toolchangers
+
+### Full conventional
+
+https://toolchangers.baconmilkshake.com/subtypes/full-conventional/
+
+Travels with the tool: Toolhead board, Motor, Gears, Part cooling fan, Hotend fan, Heatsink, Nozzle.
+
+The whole toolhead is functionally a tool with a basic carriage being coupled to the belt. Each tool carries its own extruder motor, gears, fans, heat break and sometimes a toolhead board. The oldest type of 3D printer toolchanger.
+
+Systems (8):
+- Prusa XL — Commercial printer, up to 6 tools, 14 s change, $3899 — https://youtu.be/oO8XnWPwyjA?t=770
+- E3D toolchanger — Commercial printer, up to 5 tools, 30 s change — https://www.youtube.com/watch?v=C7wYfaHT1g0
+- Stealthchanger (DraftShift) — FOSS design, up to 8 tools, 60 s change, $1909 — https://github.com/DraftShift/StealthChanger
+- TapChanger — FOSS design, up to 8 tools, 20 s change, $1775 — https://github.com/viesturz/tapchanger
+- Madmax — FOSS design, up to 8 tools, 20 s change — https://github.com/zruncho3d/madmax
+- Daksh — FOSS design, up to 8 tools, 20 s change — https://github.com/ankurv2k6/daksh-toolchanger-v2
+- Lineux — FOSS design, up to 8 tools, 20 s change — https://github.com/Bikin-Creative/Lineux-Toolchanger
+- Misschanger — FOSS design, up to 8 tools, 40 s change — https://www.youtube.com/watch?v=eGr8pHkFFNs
+
+### Partial conventional
+
+https://toolchangers.baconmilkshake.com/subtypes/partial-conventional/
+
+Travels with the tool: Motor, Gears, Hotend fan, Heatsink, Nozzle.
+Split through: Toolhead board.
+
+The tool keeps the extruder and the hot end but leaves the part cooling fan on the carriage, along with some of the toolhead electronics.
+
+Systems (2):
+- Snapmaker U1 — Commercial printer, up to 4 tools, 14 s change, $849 — https://youtu.be/NhL_kTRVEIo?t=186
+- Snapmaker U1+Sidecar AMS — Commercial printer, up to 16 tools, 90 s change — https://www.youtube.com/watch?v=7EH3QAjspt0&t=1s
+
+## Filament path changers
+
+### Gear swapping path changers
+
+https://toolchangers.baconmilkshake.com/subtypes/gear-swapping/
+
+Travels with the tool: Gears, Hotend fan, Heatsink, Nozzle.
+
+The extruder motor stays on the carriage and the drive gears travel with the tool along with the hot end. The split is in the middle of the extruder.
+
+Systems (1):
+- Flashforge Creator 5 (C5) — Commercial printer, up to 4 tools, 14 s change, $699 — https://youtu.be/WA6FuC-_R_M?si=S3VlhMhHqDrbSSmb
+
+### Hotend fan swapping path changers
+
+https://toolchangers.baconmilkshake.com/subtypes/hotend-fan-swapping/
+
+Travels with the tool: Hotend fan, Heatsink, Nozzle.
+
+The hot end travels with its own heat break fan. The extruder and part cooling stay behind, the extruder gears open for filament path changes.
+
+Systems (6):
+- Sovol M1D — Commercial printer, up to 7 tools, 21 s change, $1199 — https://www.sovol3d.com/pages/sovol-m1d-landing-page
+- A4T-C — FOSS design, up to 8 tools, 15 s change — https://discord.com/channels/460117602945990666/1522282695516885204
+- MedusaHC — FOSS design, up to 10 tools, 19 s change — https://www.youtube.com/watch?v=hpV5Z1TnGdY
+- EMNA E3NG — FOSS design, up to 6 tools, 15 s change — https://github.com/emna2881/E3NG-Toolchanger
+- Lineux HotSwap — FOSS design, up to 2 tools, 15 s change — https://www.youtube.com/watch?v=sOk1mblA44g
+- INDEX-OOSAKA Vβ — FOSS design — https://www.printables.com/model/1630327-index-oosaka-vb
+
+### Inductive / pogo path changers
+
+https://toolchangers.baconmilkshake.com/subtypes/inductive-pogo/
+
+Travels with the tool: Heatsink, Nozzle.
+
+Only the heat break and nozzle travel. The heater and thermistor cross the joint through spring pins or by inductive control, so nothing is plugged in by hand.
+
+Systems (4):
+- Infimech MX — Commercial printer, up to 8 tools, 20 s change — https://www.kickstarter.com/projects/infimech-mx-series/infimech-mx-3d-printer-8x-more-efficiency-8x-less-waste
+- Bondtech INDX — Commercial toolhead, up to 10 tools, 21 s change — https://youtu.be/BCmGoP0uNlM
+- Quindec (Srin) — FOSS design, up to 20 tools, 20 s change — https://youtu.be/941lrKT-fIY
+- Prusa CoreOne INDX — Commercial printer, up to 8 tools, 21 s change, $1949 — https://youtube.com/shorts/3wsolb-Yqn8?si=t8wk4CetKj_t3Ci_
+
+### Wired path changers
+
+https://toolchangers.baconmilkshake.com/subtypes/wired/
+
+Travels with the tool: Heatsink, Nozzle.
+
+The same split as inductive/pogo, but the heater and thermistor stay on a wire back to the board instead of crossing a contact.
+
+Systems (8):
+- Ronin (Jakob) — FOSS design, up to ? tools, 15 s change — https://github.com/jaak0b/Ronin/tree/main
+- Creality KliTek — Commercial printer, up to 4 tools, 20 s change — https://x.com/ZombieHedgehog_/status/2058981825842720972?s=20
+- CxChanger — FOSS design, up to 5 tools, 15 s change — https://github.com/cx330-TXY/CxChanger/tree/main
+- YUDX — FOSS design, up to 10 tools, 15 s change — https://github.com/dumplinglab/YUDX-tool-changer
+- Axiloop MC8 — Commercial printer, up to 8 tools, 20 s change — https://www.reddit.com/r/Axiloop/
+- BBox — FOSS design, up to 8 tools, 12 s change — https://youtube.com/shorts/VmdlazyVDtU?si=j0SshEQh-DE4e7WA
+- Unnamed toolchanger (engineers grow) — FOSS design, up to 10 tools, 20 s change — https://youtu.be/wjNQ7pUC6R8?t=1059
+- Unnamed toolchanger (Matti) — FOSS design, up to 10 tools, 20 s change — https://youtu.be/SmmD324tIl0?t=605
+
+## Hotend changers
+
+### AMS-assisted hotend changers
+
+https://toolchangers.baconmilkshake.com/subtypes/ams-assisted-hotend-changer/
+
+Travels with the tool: Heatsink, Nozzle.
+
+A hot end changer paired with an automatic material system. The AMS handles filament, so the tool only carries the heat break and nozzle.
+
+Systems (1):
+- H2C Vortek — Commercial printer, up to 7 tools, 42 s change — https://youtube.com/shorts/zYmmw5OM6OU?si=rIB2sr1aIYqg3bvJ
+
+### AMS-assisted nozzle changers
+
+https://toolchangers.baconmilkshake.com/subtypes/ams-assisted-nozzle-changer/
+
+Travels with the tool: Nozzle.
+
+Only the nozzle is swapped. The heat break, fans and extruder all stay on the machine and the AMS feeds filament.
+
+Systems (2):
+- AtomForm Palette 300 — Commercial printer, up to 36 tools, 12 s change — https://atomform.tech/
+- Swapper3d (Bigbrain3d) — Commercial toolhead, up to 20 tools, 90 s change — https://www.youtube.com/watch?v=AdUUCHGjXkE
+
+## Not toolchangers
+
+Listed on the site for comparison, but outside the classification above: AMS and
+MMU units that multiplex filament into one hot end, IDEX and other multi-head
+machines, colour deposition, and virtual-colour techniques.
+See https://toolchangers.baconmilkshake.com/all-systems/
+
+## Data
+
+- Every system as CSV: https://github.com/robertsamples/toolchanger-data/blob/main/data/systems.csv
+- Class and subtype definitions as JSON: https://github.com/robertsamples/toolchanger-data/blob/main/data/toolhead-taxonomy.json
+- All pages: https://toolchangers.baconmilkshake.com/sitemap.xml
+
+The toolchanger tables were compiled by https://github.com/ukdavewood.
+Diagrams, taxonomy and site by https://github.com/robertsamples.

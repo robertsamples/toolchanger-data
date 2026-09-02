@@ -8,6 +8,7 @@
  *   snippets/plate.html          the taxonomy plate on the front page
  *   snippets/type-<id>.md        that type's systems table, and any data note
  *   snippets/systems-*.md        the three tables on the All systems page
+ *   docs/llms.txt                the whole taxonomy and table as plain text
  *
  * The pages pull the snippets in with `--8<-- "..."`.
  *
@@ -257,10 +258,110 @@ function plate() {
 
 writeFileSync(join(ROOT, 'snippets', 'plate.html'), `${banner}\n${plate()}\n`, 'utf8');
 
+/* ---------------------------------------------------------------- *
+ * llms.txt
+ * ---------------------------------------------------------------- *
+ *
+ * The site is a vocabulary and a table, and both are awkward to recover from
+ * the rendered pages — the vocabulary is carried by diagrams and the table is
+ * split across eleven of them. This states both in one plain-text file at a
+ * well-known path, so an agent does not have to crawl the site to answer
+ * "what kind of toolchanger is X" or "which ones swap only the nozzle".
+ *
+ * Nothing here is new content: the summaries are the opening paragraph of each
+ * subtype page and the systems come from the same CSV as the tables, so it
+ * cannot drift from what a reader sees.
+ */
+
+const SITE = 'https://toolchangers.baconmilkshake.com';
+const REPO = 'https://github.com/robertsamples/toolchanger-data';
+
+const BLOCK = Object.fromEntries(data.template.blocks.map((b) => [b.id, b.label]));
+
+/** The first prose paragraph of a subtype page, i.e. what it is in one go. */
+function summary(t) {
+  const page = read('docs', 'subtypes', `${slug(t.id)}.md`);
+  const para = page
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .find((p) => p && !p.startsWith('#') && !p.startsWith('![') && !p.startsWith('<'));
+  if (!para) warn(`docs/subtypes/${slug(t.id)}.md has no opening paragraph for llms.txt`);
+  return (para || '').replace(/\s+/g, ' ');
+}
+
+function llms() {
+  const L = [];
+  L.push('# Toolchanger data', '');
+  L.push('> A vocabulary for 3D printer toolchangers, and a table of the machines that use');
+  L.push('> each kind. Systems get sorted by where the tool/carriage split is drawn, because');
+  L.push('> that is what sets the cost per tool, the moving mass, and what has to be broken');
+  L.push('> and remade at every change. Three classes, eight subtypes.', '');
+  L.push(`Site: ${SITE}/  ·  Source: ${REPO}`);
+  L.push('Generated from data/ by tools/build-docs.mjs. Not hand-written.', '');
+
+  L.push('## How the classification works', '');
+  L.push('Every subtype is one block diagram of a toolhead with a dashed outline drawn round');
+  L.push('the part that leaves with a tool change. Blocks inside the outline exist once per');
+  L.push('tool; connections crossing it are broken and remade at every change. The blocks are:');
+  L.push(data.template.blocks.map((b) => b.label).join(', ') + '.', '');
+  L.push('Each subtype page also carries pros and cons; those are not repeated here.', '');
+  L.push('Classes differ in where that outline falls:', '');
+  for (const c of data.classes) {
+    const kinds = data.types.filter((t) => t.class === c.id).map((t) => t.label);
+    L.push(`- ${c.label} — ${kinds.join('; ')}`);
+  }
+  L.push('');
+
+  for (const c of data.classes) {
+    L.push(`## ${c.label}`, '');
+    for (const t of data.types.filter((x) => x.class === c.id)) {
+      const rows = systems.rows.filter((r) => r.type === t.id);
+      L.push(`### ${t.label}`, '');
+      L.push(`${SITE}/subtypes/${slug(t.id)}/`, '');
+      L.push(`Travels with the tool: ${(t.swaps || []).map((b) => BLOCK[b] || b).join(', ') || 'nothing'}.`);
+      if (t.partial?.length) {
+        L.push(`Split through: ${t.partial.map((b) => BLOCK[b] || b).join(', ')}.`);
+      }
+      L.push('');
+      const s = summary(t);
+      if (s) L.push(s, '');
+      if (rows.length) {
+        L.push(`Systems (${rows.length}):`);
+        for (const r of rows) {
+          const bits = [ORG[r.origin]?.label || r.origin];
+          if (r['max tools']) bits.push(`up to ${r['max tools']} tools`);
+          if (r['change time (s)']) bits.push(`${r['change time (s)']} s change`);
+          if (r['total cost (USD)']) bits.push(`$${r['total cost (USD)']}`);
+          L.push(`- ${r.name} — ${bits.join(', ')}${r.url ? ` — ${r.url}` : ''}`);
+        }
+        L.push('');
+      }
+    }
+  }
+
+  L.push('## Not toolchangers', '');
+  L.push('Listed on the site for comparison, but outside the classification above: AMS and');
+  L.push('MMU units that multiplex filament into one hot end, IDEX and other multi-head');
+  L.push('machines, colour deposition, and virtual-colour techniques.');
+  L.push(`See ${SITE}/all-systems/`, '');
+
+  L.push('## Data', '');
+  L.push(`- Every system as CSV: ${REPO}/blob/main/data/systems.csv`);
+  L.push(`- Class and subtype definitions as JSON: ${REPO}/blob/main/data/toolhead-taxonomy.json`);
+  L.push(`- All pages: ${SITE}/sitemap.xml`, '');
+  L.push('The toolchanger tables were compiled by https://github.com/ukdavewood.');
+  L.push('Diagrams, taxonomy and site by https://github.com/robertsamples.', '');
+
+  return L.join('\n');
+}
+
+writeFileSync(join(ROOT, 'docs', 'llms.txt'), llms(), 'utf8');
+
 /* ---------------------------------------------------------------- */
 
 console.log(`diagrams  ${data.types.length * 2 + 1} svg`);
 console.log(`snippets  plate.html, 3 system tables, ${data.types.length} type tables`);
+console.log(`llms.txt  ${llms().split('\n').length} lines`);
 console.log(`systems   ${systems.rows.length} rows; columns shown: ${columns.join(', ')}`);
 console.log(`plate     included by ${includers.join(', ') || '(nobody)'}, paths rooted at "${SITE_ROOT}"`);
 for (const w of warnings) console.warn(`warning: ${w}`);
