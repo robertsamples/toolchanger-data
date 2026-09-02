@@ -28,11 +28,13 @@ which did the same job for multi-material units.
 Read the diagrams as a map of one toolhead. The dashed outline is the tool: the
 part that leaves with a change. Anything inside it exists once per tool. Anything
 the outline crosses is a connection that has to survive being pulled apart and
-put back together, over and over.
+put back together, over and over. Click any panel below for that subtype's page.
+
+--8<-- "plate.html"
 
 ### Conventional toolchangers
 
-In a [conventional toolchanger](subtypes.md#conventional-toolchangers) the tool
+In a conventional toolchanger the tool
 is a toolhead. Extruder motor, gears, both fans, hot end and usually its own
 control board all travel, and the carriage is reduced to a mount and a coupling.
 Filament stays loaded in the tool between changes.
@@ -42,13 +44,13 @@ Filament stays loaded in the tool between changes.
 This is the oldest arrangement and the easiest to reason about, because a tool is
 just a toolhead that can be parked. It is also the most expensive (in theory) way to add a
 colour, and it puts the most mass on the coupling. Redundant electronics are needed for every tool. Splitting between
-[full](subtypes.md#type-full_conventional) and
-[partial](subtypes.md#type-partial_conventional) conventional comes down to
+[full](subtypes/full-conventional.md) and
+[partial](subtypes/partial-conventional.md) conventional comes down to
 whether the part cooling fan and all of toolhead electronics or just some travel too.
 
 ### Filament path changers
 
-A [filament path changer](subtypes.md#filament-path-changers) cuts somewhere
+A filament path changer cuts somewhere
 along the filament path instead of above it. The extruder is split or left behind
 entirely, so the tool carries a shorter piece of the chain — the drive gears and
 hot end, the hot end and its heat break fan, or just the heat break and nozzle.
@@ -59,12 +61,12 @@ Filament is withdrawn past the cut before a change and re-fed after.
 Tools get cheaper and lighter the further down the cut moves, but the filament
 handling gets much harder and more crosses the joint. Heater current and thermistor
 signal have to reach a part that keeps detaching, which is what separates the
-[inductive and pogo](subtypes.md#type-inductive_pogo) designs from the
-[wired](subtypes.md#type-wired) ones.
+[inductive and pogo](subtypes/inductive-pogo.md) designs from the
+[wired](subtypes/wired.md) ones.
 
 ### Hotend changers
 
-A [hotend changer](subtypes.md#hotend-changers) leaves the filament path on the
+A hotend changer leaves the filament path on the
 machine. One extruder and one filament system, usually an AMS, feed whichever hot
 end or nozzle is mounted, and the tool is only the hot zone.
 
@@ -73,8 +75,8 @@ end or nozzle is mounted, and the tool is only the hot zone.
 This is the cheapest thing to duplicate and adds the least mass, at the cost of
 depending on the material system to load and retract reliably, and of every
 change costing a purge. Mechanically the changing system also has to have more complex movements to swap a nozzle- this is readily apparant in Bambu Lab Vortek's multirail system and the Swapper3Ds rotating carrage and actuation arm. Where the cut falls between the
-[heat break](subtypes.md#type-ams_assisted_hotend_changer) and the
-[nozzle alone](subtypes.md#type-ams_assisted_nozzle_changer) decides whether
+[heat break](subtypes/ams-assisted-hotend-changer.md) and the
+[nozzle alone](subtypes/ams-assisted-nozzle-changer.md) decides whether
 tools can differ in anything but nozzle geometry.
 
 ### Trade-offs

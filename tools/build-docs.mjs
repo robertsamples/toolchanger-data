@@ -1,19 +1,20 @@
 /**
  * build-docs.mjs — regenerate the parts of the site that are derived from data.
  *
- * docs/index.md is written by hand. This only produces what would be tedious or
+ * The docs/*.md pages are written by hand. This only produces what would be tedious or
  * error-prone to keep in sync by hand:
  *
  *   docs/assets/diagrams/*.svg   one diagram per type, plus the annotated key
- *   snippets/plate.html          the taxonomy plate at the top of the page
+ *   snippets/plate.html          the taxonomy plate on the front page
  *   snippets/type-<id>.md        that type's systems table, and any data note
+ *   snippets/systems-*.md        the three tables on the All systems page
  *
- * The page pulls the snippets in with `--8<-- "..."`.
+ * The pages pull the snippets in with `--8<-- "..."`.
  *
  *   node tools/build-docs.mjs
  */
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderDiagram } from '../web/toolhead-diagram.js';
@@ -94,20 +95,24 @@ for (const [type, names] of Object.entries(unknown)) {
 }
 
 /* ---------------------------------------------------------------- *
- * Sanity check against the page
+ * Sanity check against the pages
  * ---------------------------------------------------------------- */
 
-const pageText = read('docs', 'subtypes.md');
+/** Each type has its own page under docs/subtypes/, which the plate links to. */
+const slug = (id) => id.replace(/_/g, '-');
+const navText = read('mkdocs.yml');
+
 for (const t of data.types) {
-  if (!pageText.includes(`id="type-${t.id}"`)) {
-    warn(`docs/subtypes.md has no section for type "${t.id}"`);
-  }
+  const page = `subtypes/${slug(t.id)}.md`;
+  if (!existsSync(join(ROOT, 'docs', page))) warn(`docs/${page} is missing`);
+  else if (!navText.includes(page)) warn(`${page} is not in the nav in mkdocs.yml`);
 }
 
 /**
  * The plate is raw HTML. MkDocs leaves relative paths in raw HTML alone, while
  * Zensical rewrites them — so a relative path cannot be correct for both. A
- * site-root path is left as-is by both, which is why these are absolute.
+ * site-root path is left as-is by both, which is why the images and the subtype
+ * links inside the plate are absolute.
  */
 const includers = readdirSync(join(ROOT, 'docs'))
   .filter((f) => f.endsWith('.md') && read('docs', f).includes('--8<-- "plate.html"'));
@@ -115,7 +120,7 @@ const includers = readdirSync(join(ROOT, 'docs'))
 if (includers.length !== 1) {
   warn(`plate.html is included by ${includers.length} pages (${includers.join(', ') || 'none'})`);
 }
-const ASSET_PREFIX = '/';
+const SITE_ROOT = '/';
 
 /* ---------------------------------------------------------------- *
  * Diagrams
@@ -127,7 +132,7 @@ mkdirSync(join(ROOT, 'snippets'), { recursive: true });
 function writeSvg(name, svg) {
   const doc = `<?xml version="1.0" encoding="UTF-8"?>\n${svg.replace('<svg ', '<svg version="1.1" ')}\n`;
   writeFileSync(join(ROOT, 'docs', 'assets', 'diagrams', name), doc, 'utf8');
-  return `${ASSET_PREFIX}assets/diagrams/${name}`;
+  return `${SITE_ROOT}assets/diagrams/${name}`;
 }
 
 // The source figure uses one absolute line weight throughout. That reads right
@@ -224,7 +229,7 @@ function plate() {
     .join('');
 
   const card = (t) =>
-    `<a class="tc-cell" href="#type-${esc(t.id)}">` +
+    `<a class="tc-cell" href="${SITE_ROOT}subtypes/${slug(t.id)}/">` +
       `<span class="tc-cell-fig"><img src="${figs[t.id].panel}" alt="${esc(t.label)} block diagram"></span>` +
       `<span class="tc-cell-txt">` +
         `<span class="tc-cell-name">${esc(t.label)}</span>` +
@@ -257,5 +262,5 @@ writeFileSync(join(ROOT, 'snippets', 'plate.html'), `${banner}\n${plate()}\n`, '
 console.log(`diagrams  ${data.types.length * 2 + 1} svg`);
 console.log(`snippets  plate.html, 3 system tables, ${data.types.length} type tables`);
 console.log(`systems   ${systems.rows.length} rows; columns shown: ${columns.join(', ')}`);
-console.log(`plate     included by ${includers.join(', ') || '(nobody)'}, assets prefixed "${ASSET_PREFIX}"`);
+console.log(`plate     included by ${includers.join(', ') || '(nobody)'}, paths rooted at "${SITE_ROOT}"`);
 for (const w of warnings) console.warn(`warning: ${w}`);

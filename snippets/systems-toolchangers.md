@@ -33,3 +33,4 @@
 | <span class="tc-org-foss">Unnamed toolchanger (Matti)</span> | FOSS design | 10 | 20 |  | [link](https://youtu.be/SmmD324tIl0?t=605) |  |
 | <span class="tc-org-commercial-printer">Snapmaker U1+Sidecar AMS</span> | Commercial printer | 16 | 90 |  | [link](https://www.youtube.com/watch?v=7EH3QAjspt0&t=1s) | AMS-extended colour count |
 | <span class="tc-org-foss">Misschanger</span> | FOSS design | 8 | 40 |  | [link](https://www.youtube.com/watch?v=eGr8pHkFFNs) |  |
+| <span class="tc-org-foss">INDEX-OOSAKA Vβ</span> | FOSS design |  |  |  | [link](https://www.printables.com/model/1630327-index-oosaka-vb) |  |

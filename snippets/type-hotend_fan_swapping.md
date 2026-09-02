@@ -7,3 +7,4 @@
 | <span class="tc-org-foss">MedusaHC</span> | FOSS design | 10 | 19 |  | [link](https://www.youtube.com/watch?v=hpV5Z1TnGdY) | by Sergei Irbis, github.com/Irbis3D/MedusaHC |
 | <span class="tc-org-foss">EMNA E3NG</span> | FOSS design | 6 | 15 |  | [link](https://github.com/emna2881/E3NG-Toolchanger) | for Ender-3 NG (RH3D) |
 | <span class="tc-org-foss">Lineux HotSwap</span> | FOSS design | 2 | 15 |  | [link](https://www.youtube.com/watch?v=sOk1mblA44g) | unrelated to Lineux; not released; by 3dfiymylife |
+| <span class="tc-org-foss">INDEX-OOSAKA Vβ</span> | FOSS design |  |  |  | [link](https://www.printables.com/model/1630327-index-oosaka-vb) |  |

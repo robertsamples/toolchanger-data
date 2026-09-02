@@ -28,20 +28,23 @@ fresh clone can go straight to serving.
 
 | What | Where |
 |---|---|
-| Page text, type descriptions | `docs/index.md` |
+| Classes, forward, trade-offs | `docs/index.md` |
+| A type's description, pros and cons | `docs/subtypes/<type>.md` |
 | Systems and their stats | `data/systems.csv` |
 | Which blocks a type swaps | `data/toolhead-taxonomy.json` |
+| Sidebar order and grouping | `mkdocs.yml` |
 | Plate and table layout | `tools/build-docs.mjs` |
 
-`docs/index.md` is an ordinary page — edit it directly. The `--8<--` lines pull
-in generated fragments from `snippets/`.
+The pages under `docs/` are ordinary markdown — edit them directly. The `--8<--`
+lines pull in generated fragments from `snippets/`.
+
+One page per type, named after its taxonomy id with underscores as dashes. Adding
+a type means adding the page and a nav entry as well; `tools/build-docs.mjs`
+warns if either is missing.
 
 `data/systems.csv` needs a `name` and a `type` (matching an id in the taxonomy).
 Every other column is yours; add or rename them freely. Columns that are empty
 for every row are left out of the tables.
-
-The first paragraph of a type's section in `docs/index.md` is reused as its
-one-line summary in the plate at the top of the page.
 
 Re-run `node tools/build-docs.mjs` after changing the CSV or the taxonomy. If
 `mkdocs serve` is running it reloads on its own once the script finishes.

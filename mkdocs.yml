@@ -51,10 +51,21 @@ extra:
 extra_css:
   - stylesheets/plate.css
 
-extra_javascript:
-  - javascripts/jump.js
-
+# One page per subtype, grouped by class. The plate on the front page links
+# straight into these, so the labels here should match data/toolhead-taxonomy.json.
 nav:
   - Toolchanger Classes: index.md
-  - Toolchanger Subtypes: subtypes.md
-  - IP Landscape: ip-landscape.md
+  - Conventional toolchangers:
+      - Full conventional: subtypes/full-conventional.md
+      - Partial conventional: subtypes/partial-conventional.md
+  - Filament path changers:
+      - Gear swapping path changers: subtypes/gear-swapping.md
+      - Hotend fan swapping path changers: subtypes/hotend-fan-swapping.md
+      - Inductive / pogo path changers: subtypes/inductive-pogo.md
+      - Wired path changers: subtypes/wired.md
+      - Drivetrain design: subtypes/drivetrain-design.md
+      - IP Landscape: ip-landscape.md
+  - Hotend changers:
+      - AMS-assisted hotend changers: subtypes/ams-assisted-hotend-changer.md
+      - AMS-assisted nozzle changers: subtypes/ams-assisted-nozzle-changer.md
+  - All systems: all-systems.md

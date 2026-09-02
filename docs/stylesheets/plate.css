@@ -152,19 +152,38 @@
   .tc-band-body > * + * { border-top: 1px solid var(--tc-rule-soft); }
 }
 
-/* ---------- type sections ---------- */
+/* ---------- subtype pages ---------- */
 
-/* The sections are Material's own collapsible admonitions — <details class="note">
-   is exactly what `??? note` produces, written out so each one can carry the id
-   the plate links to. Nothing here restyles them; only the figure float is ours. */
+/* Each subtype has its own page under docs/subtypes/. The only thing those need
+   beyond plain markdown is the diagram floated beside the prose. */
 
+/* Wide enough that the block labels inside the SVG stay readable; the prose
+   still gets the larger share of the column. */
 .md-typeset .tc-detail-fig {
   float: right;
-  width: 280px;
-  max-width: 42%;
-  margin: .5rem 0 .5rem .9rem;
+  width: 400px;
+  max-width: 46%;
+  margin: .5rem 0 .5rem 1.2rem;
 }
 .tc-clear { clear: both; height: 0; }
+
+/* Two photos compared under one caption. The theme sets figure images to
+   display:block, which would stack them, so the pair is put back inline. The
+   figure gets a definite width so the percentage caps below have something to
+   resolve against — figures are fit-content by default. */
+.md-typeset .tc-pair { width: 100%; max-width: 700px; }
+.md-typeset .tc-pair img {
+  display: inline-block;
+  vertical-align: top;
+  /* Matched height rather than matched width — the two are near enough in
+     aspect that this reads as one comparison. Width follows. */
+  height: 290px;
+  width: auto;
+  margin: 0 .3rem;
+}
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .tc-pair img { height: auto; width: 100%; margin: .3rem 0; }
+}
 
 /* the class overview figures on the front page */
 .md-typeset .tc-class-fig { display: block; max-width: 460px; margin: .8rem 0; }
